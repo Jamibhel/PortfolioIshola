@@ -28,19 +28,19 @@ export const HeroBoard: React.FC = () => {
   const dragStartPosRef = useRef<{ clientX: number; clientY: number; initialX: number; initialY: number } | null>(null);
   const isDragMovedRef = useRef<boolean>(false);
 
-  // Auto-disappear post-its after 15 seconds (14s triggers gravity fall animation, 15s removes)
+  // Auto-disappear post-its after 5.5 seconds (4.6s triggers fluttering departure animation, 5.4s removes)
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
       setPostIts((prev) => {
         const updated = prev
-          .map((p) => (now - p.createdAt > 14000 ? { ...p, isFading: true } : p))
-          .filter((p) => now - p.createdAt <= 15000);
+          .map((p) => (now - p.createdAt > 4600 ? { ...p, isFading: true } : p))
+          .filter((p) => now - p.createdAt <= 5400);
         return updated.length !== prev.length || updated.some((p, i) => p.isFading !== prev[i]?.isFading)
           ? updated
           : prev;
       });
-    }, 300);
+    }, 150);
 
     return () => clearInterval(timer);
   }, []);
@@ -252,21 +252,21 @@ export const HeroBoard: React.FC = () => {
 
           {/* Headline */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.1]">
-            <span className="block animate-slide-up">
+            <span className="block animate-header-text">
               {isZBMode
                 ? heroContent.title.line1.zb[language]
                 : heroContent.title.line1.corporate[language]}
             </span>
-            <span className="block animate-slide-up" style={{ animationDelay: '80ms' }}>
+            <span className="block animate-header-text" style={{ animationDelay: '120ms' }}>
               {isZBMode
                 ? heroContent.title.line2.zb[language]
                 : heroContent.title.line2.corporate[language]}
             </span>
             <span
-              className={`block italic animate-slide-up ${
+              className={`block italic animate-header-text ${
                 isZBMode ? 'text-orange-400' : 'text-stone-400'
               }`}
-              style={{ animationDelay: '160ms' }}
+              style={{ animationDelay: '240ms' }}
             >
               {isZBMode
                 ? heroContent.title.line3.zb[language]
@@ -276,9 +276,10 @@ export const HeroBoard: React.FC = () => {
 
           {/* Subtitle */}
           <p
-            className={`text-xs sm:text-base font-light leading-relaxed max-w-xl ${
+            className={`text-xs sm:text-base font-light leading-relaxed max-w-xl animate-header-text ${
               isZBMode ? 'text-stone-300' : 'text-stone-600'
             }`}
+            style={{ animationDelay: '340ms' }}
             dangerouslySetInnerHTML={{
               __html: isZBMode
                 ? heroContent.subtitle.zb[language]
@@ -287,7 +288,7 @@ export const HeroBoard: React.FC = () => {
           />
 
           {/* Badges / Competency Tags */}
-          <div className="flex flex-wrap gap-2 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1 animate-header-text" style={{ animationDelay: '420ms' }}>
             {heroContent.badges.map((badge, index) => (
               <span
                 key={index}
@@ -303,7 +304,7 @@ export const HeroBoard: React.FC = () => {
           </div>
 
           {/* Action Row: Permanent Signature Post-It Note & Download CV Button */}
-          <div className="flex flex-wrap items-center gap-4 mt-4 sm:mt-6">
+          <div className="flex flex-wrap items-center gap-4 mt-4 sm:mt-6 animate-header-text" style={{ animationDelay: '500ms' }}>
             <div
               onClick={() =>
                 setActiveTheaterPostIt({
@@ -369,8 +370,8 @@ export const HeroBoard: React.FC = () => {
               <MousePointerClick className="w-4 h-4 text-orange-500 flex-shrink-0" />
               <span>
                 {language === 'fr'
-                  ? 'Touchez ou cliquez sur le tableau pour coller un post-it (max 8 cartes • expire après 15s)'
-                  : 'Tap or click anywhere on the board to stick a thought (max 8 cards • leaves after 15s)'}
+                  ? 'Touchez ou cliquez sur le tableau pour coller un post-it (max 8 cartes • expire après 6s)'
+                  : 'Tap or click anywhere on the board to stick a thought (max 8 cards • leaves after 6s)'}
               </span>
             </div>
           )}

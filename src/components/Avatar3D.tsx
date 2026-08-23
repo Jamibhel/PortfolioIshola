@@ -8,11 +8,11 @@ interface Avatar3DProps {
   lookAtTarget?: { x: number; y: number } | null;
 }
 
-// Color Tokens for Olakunle Tairu 3D Avatar
+// Color Tokens for Shamsideen Tairu 3D Avatar
 const AFRICAN_DARK_BROWN_SKIN = new THREE.Color('#381e12');
-const BLAZER_COLOR = new THREE.Color('#064e3b'); // Sleek deep forest emerald
-const ZB_BLAZER_COLOR = new THREE.Color('#f97316'); // Vibrant amber orange
-const PANTS_COLOR = new THREE.Color('#1e293b'); // Modern charcoal slate
+const BLAZER_COLOR = new THREE.Color('#1e3a8a'); // Tailored Midnight Royal Navy Blazer
+const ZB_BLAZER_COLOR = new THREE.Color('#ea580c'); // High-Energy Volcanic Orange Blazer
+const PANTS_COLOR = new THREE.Color('#0f172a'); // Luxury Slate Obsidian Trousers
 
 export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
   const containerRef = useRef<HTMLDivElement>(null);
