@@ -1,0 +1,122 @@
+================================================================================
+SHAMSIDEEN TAIRU
+Full-Stack Developer (Web & Mobile)
+Location: Maryland, USA (Remote / Relocation)
+Email: devshamsideentairu@gmail.com
+Portfolio: https://designbreakdown-clone.vercel.app
+================================================================================
+
+PROFESSIONAL SUMMARY
+Full-Stack Developer with 8+ years of engineering experience architecting and
+shipping cross-platform mobile apps (Flutter, React Native, native Android) and
+scalable cloud-native web platforms (React, Next.js, Firebase, Supabase, Node).
+Specialist in resilient offline-first mobile sync architectures, real-time
+operational SaaS platforms, and secure multi-tier transactional fintech workflows
+handling real user funds.
+
+CONFIDENTIALITY / NDA NOTICE
+* A substantial portion of production engineering work has been built under
+  strict Non-Disclosure Agreements (NDAs) for enterprise clients, healthcare
+  institutions, and fintech platforms. The systems detailed below represent an
+  authorized selection of showcase and public production projects.
+
+================================================================================
+* 3D & Creative Web Engineering:
+  - Three.js, WebGL, GLSL Shaders, Draco / GLTF 3D Optimization
+  - Canvas 2D/3D API, Framer Motion, Anime.js, Interactive 3D Scenes
+
+* Mobile App Development:
+  - Flutter & Dart, React Native & Expo, Android Studio (Java & Kotlin)
+  - Offline-First Architecture (SQLite, Isar, Room, Local Caching)
+  - Native Background Services, Push Notifications, Virtualized Lists
+
+* Frontend & Full-Stack Web:
+  - React 19, Next.js 15 (App Router, Server Components), TypeScript, JavaScript
+  - Tailwind CSS, shadcn/ui, Recharts, Vite, HTML5, CSS3/SASS, Responsive UI
+
+* Backend, Databases & Cloud:
+  - Supabase (PostgreSQL, Row-Level Security, Edge Functions, pgvector)
+  - Firebase (Firestore, Authentication, Cloud Functions, Realtime DB)
+  - RESTful APIs, WebSockets, State Management (Riverpod, Zustand, Redux)
+
+* DevOps & Tooling:
+  - Git, GitHub Actions (CI/CD), Fastlane, Docker, Clean Architecture, PWA
+
+================================================================================
+PRODUCTION PROJECTS & SYSTEMS EXPERIENCE
+================================================================================
+
+NutriCare — AI Senior Nutrition & Health Platform (Flutter • Supabase • Next.js)
+Lead Full-Stack & Mobile Developer | Jan 2024 – Present | nutricareelderly1.vercel.app
+* Engineered cross-platform mobile and web application in Flutter, Dart, React,
+  and Supabase, onboarding 1,000+ active seniors with a 4.9/5 satisfaction score.
+* Implemented a dietary recommendation engine evaluating glycemic impact across
+  50+ Nigerian dishes for elderly users managing diabetes and hypertension.
+* Built native background medication alerts with drug-food interaction checks
+  and secure medical record synchronization via Supabase PostgreSQL.
+* Optimized UI rendering to maintain a consistent 60fps frame rate on low-end
+  mobile devices through intelligent list virtualization.
+
+MoniePal — Fintech Savings & Digital Wallet Platform (React • Firebase • TypeScript)
+Full-Stack Developer | Jun 2023 – Dec 2023 | mymoniepal.com
+* Architected a group savings (Ajo/Esusu) and digital wallet fintech platform
+  in React, TypeScript, Firebase, and Tailwind CSS.
+* Engineered atomic multi-tier wallet transactions and automated recurring
+  contribution schedules with bank-grade encryption and zero balance discrepancies.
+* Implemented progressive web app (PWA) offline capabilities and real-time
+  transaction reconciliation.
+* Optimized KYC and user onboarding flows, reducing drop-off rates by 35%.
+
+BookUp — Student-Tutor Community & Learning Ecosystem (Android Studio • React)
+Full-Stack Mobile & Web Developer | Jan 2023 – May 2023 | bit.ly/bookup-app-install
+* Developed a dual-platform educational system comprising a native Android mobile
+  app (Java / Android Studio) and a responsive React web app (Vite / PWA).
+* Built real-time community feeds, peer messaging channels, and tutor matching
+  powered by Firebase Realtime Database.
+* Implemented offline resource caching allowing students in low-bandwidth regions
+  to access study materials without interruptions.
+
+Ops4Ease — African SME Operations SaaS (React • TypeScript • Firebase)
+Full-Stack SaaS Developer | Aug 2022 – Dec 2022 | ops4ease.com
+* Built an all-in-one operations SaaS platform replacing disconnected spreadsheet
+  tools with unified task tracking, attendance, HR, and business insights.
+* Engineered multi-tenant role-based access control (RBAC) guaranteeing data
+  isolation across enterprise and SME workspaces.
+* Reduced client weekly administrative reporting overhead by 40%.
+
+Depeace Global Travel — Travel Booking Hub & CMS (React • Supabase • shadcn/ui)
+Full-Stack Web Developer | Jan 2022 – Jul 2022 | depeacetravels.com
+* Delivered travel and pilgrimage booking platform for Hajj/Umrah packages, visa
+  processing, and flight reservations.
+* Configured dynamic Supabase CMS allowing instant package and pricing updates
+  without requiring code deployments.
+* Implemented mobile-first booking flows with Tailwind CSS and shadcn/ui,
+  increasing customer inquiry conversions by 45%.
+
+Infinite Studio Space — Production Studio Space Platform (Next.js 14 • React)
+Full-Stack Developer | Jul 2021 – Dec 2021 | infinitestudio.space
+* Created editorial web showcase and booking system for an 8-studio media
+  production space using Next.js 14 and Tailwind CSS.
+* Integrated studio reservation calculator and direct WhatsApp inquiry routing
+  supporting 4,000+ booked studio hours.
+* Achieved a 98+ Google Lighthouse performance score via WebP image optimization.
+
+Provenance Business School & Willow Health — Platform Consulting (Firebase • React)
+Full-Stack Developer | 2020 – 2021
+* Built interactive webinar and learning platform for Provenance School with dual
+  student/tutor portals.
+* Engineered Willow Health campus wellness triage platform featuring interactive
+  health analytics powered by Recharts and Firebase.
+
+================================================================================
+CERTIFICATIONS & CONTINUOUS LEARNING
+================================================================================
+* Advanced Flutter & Dart Mobile Architecture
+* Enterprise Supabase Database & Security (RLS)
+* Firebase Cloud Architecture & Real-Time Data Design
+
+================================================================================
+LANGUAGES
+================================================================================
+* English (Native / Full Professional Proficiency)
+================================================================================

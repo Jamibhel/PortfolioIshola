@@ -1,0 +1,148 @@
+{
+    "version": "4.0",
+    "description": "34 Full-Stack & Mobile engineering post-its by Olakunle Tairu, structured data with corpo/zerobs/paragraph for flip theater",
+    "categoryMap": {
+        "architecture": "architecture",
+        "mobile": "mobile",
+        "backend": "backend",
+        "devops": "devops"
+    },
+    "postits": [
+        {
+            "id": 1,
+            "category": "architecture",
+            "title": { "fr": "Offline-First", "en": "Offline-First" },
+            "corpo": {
+                "fr": "Les réseaux mobiles sont hostiles. L'app doit fonctionner sans connexion.",
+                "en": "Mobile networks are hostile. The app must work without internet."
+            },
+            "zerobs": {
+                "fr": "Pas de réseau ? Zéro spinner bloquant. Tout est local d'abord.",
+                "en": "No connection? Zero blocking spinners. Everything local first."
+            },
+            "paragraph": {
+                "fr": "Dans les pays émergents comme dans le métro parisien, la 4G/5G coupe constamment. Concevoir une app qui attend la réponse du serveur avant de mettre à jour l'écran est une erreur fatale. Mes architectures stockent chaque action dans SQLite local et synchronisent en tâche de fond avec Supabase dès que le réseau revient.",
+                "en": "Whether in emerging markets or the subway, mobile connections drop constantly. Building an app that waits for server responses before updating the UI is a fatal mistake. My architectures persist mutations immediately into local SQLite and sync with Supabase in background queues."
+            }
+        },
+        {
+            "id": 2,
+            "category": "backend",
+            "title": { "fr": "PostgreSQL RLS", "en": "PostgreSQL RLS" },
+            "corpo": {
+                "fr": "La sécurité à la couche de données, pas dans du code middleware fragile.",
+                "en": "Security at the data layer, not in fragile application middleware."
+            },
+            "zerobs": {
+                "fr": "Un WHERE oublié et tes données fuient. Avec Supabase RLS, c'est impossible.",
+                "en": "One forgotten WHERE clause and you leak data. With Supabase RLS, it's airtight."
+            },
+            "paragraph": {
+                "fr": "Compter uniquement sur des filtres de requêtes dans une API Node.js ou Express est la cause n°1 des fuites de données multi-tenants. Avec Row-Level Security (RLS) sur PostgreSQL, les règles d'isolation sont gravées au coeur du moteur de base de données. Même si une requête frontend tente d'accéder à un enregistrement interdit, PostgreSQL la bloque à la racine.",
+                "en": "Relying strictly on manual WHERE filters in Node.js controllers is the #1 cause of multi-tenant data leaks. With PostgreSQL Row-Level Security (RLS), access policies are enforced directly inside the database engine. Even if unauthorized client queries execute, the database rejects them at the root."
+            }
+        },
+        {
+            "id": 3,
+            "category": "mobile",
+            "title": { "fr": "60 FPS Constants", "en": "Steady 60 FPS" },
+            "corpo": {
+                "fr": "Les utilisateurs ne lisent pas l'architecture, ils ressentent chaque saccade.",
+                "en": "Users don't read architecture diagrams—they feel every frame drop."
+            },
+            "zerobs": {
+                "fr": "FlashList + animations sur le thread UI natif. Zéro lag toléré.",
+                "en": "FlashList + native UI thread gestures. Zero stutter tolerated."
+            },
+            "paragraph": {
+                "fr": "Rien ne détruit la confiance d'un utilisateur aussi vite qu'une liste qui freeze au scroll. J'utilise Shopify FlashList pour recycler les vues de façon agressive et React Native Reanimated pour exécuter les gestes à 60/120 images par seconde directement sur le thread UI natif.",
+                "en": "Nothing destroys user trust faster than a list that stutters during scrolling. I leverage FlashList for aggressive cell recycling and React Native Reanimated to execute gestures at 60/120 fps directly on the native UI thread."
+            }
+        },
+        {
+            "id": 4,
+            "category": "architecture",
+            "title": { "fr": "Typage de Bout en Bout", "en": "End-to-End Types" },
+            "corpo": {
+                "fr": "Du schéma PostgreSQL jusqu'au composant React : typage strict 100%.",
+                "en": "From PostgreSQL schema to React component: 100% strict typing."
+            },
+            "zerobs": {
+                "fr": "Zéro 'any'. Si la base change, le compilateur TypeScript te le dit direct.",
+                "en": "Zero 'any'. When the database schema changes, TypeScript yells at you."
+            },
+            "paragraph": {
+                "fr": "Grâce aux générateurs de types Supabase CLI (`supabase gen types typescript`), chaque table, fonction SQL et vue PostgreSQL produit des types TypeScript stricts. Le backend et le frontend partagent la même vérité sans aucune dérive de schéma.",
+                "en": "Using the Supabase CLI (`supabase gen types typescript`), every PostgreSQL table, view, and RPC generates strict TypeScript definitions. The backend and frontend share a single source of truth without manual contract drift."
+            }
+        },
+        {
+            "id": 5,
+            "category": "backend",
+            "title": { "fr": "Realtime WebSockets", "en": "Realtime WebSockets" },
+            "corpo": {
+                "fr": "Le polling détruit les batteries et les serveurs. Le push temps réel est la norme.",
+                "en": "Polling kills batteries and servers. Realtime push is the standard."
+            },
+            "zerobs": {
+                "fr": "Fini les setInterval() à 2s. Supabase Realtime diffuse à la milliseconde.",
+                "en": "No more 2s polling loops. Supabase Realtime pushes changes in milliseconds."
+            },
+            "paragraph": {
+                "fr": "Pour les applications financières (Aura Pay) et médicales (PulseHealth), l'information doit être instantanée. Supabase Realtime écoute les logs de réplication PostgreSQL (WAL) et diffuse les mutations via WebSockets sécurisés en moins de 50ms mondialement.",
+                "en": "For financial and healthcare applications, immediate state synchronization is critical. Supabase Realtime streams PostgreSQL write-ahead logs (WAL) through secure WebSockets in sub-50ms worldwide."
+            }
+        },
+        {
+            "id": 6,
+            "category": "mobile",
+            "title": { "fr": "Batterie & GPS", "en": "Battery & GPS" },
+            "corpo": {
+                "fr": "Une app chauffeur qui draine la batterie en 2h est inutilisable.",
+                "en": "A driver app that drains battery in 2 hours is useless."
+            },
+            "zerobs": {
+                "fr": "GPS par distance géofencing, pas par écoute continue. Autonomie x3.",
+                "en": "Distance-filtered GPS, not battery-burning timers. 3x battery life."
+            },
+            "paragraph": {
+                "fr": "Sur Nexus Logistics (2 500+ chauffeurs), l'écoute GPS en continu vidait les téléphones avant midi. J'ai réécrit le module de télémétrie natif avec du geofencing et des déclencheurs basés sur l'accéléromètre pour préserver l'autonomie sur des journées entières de livraison.",
+                "en": "On Nexus Logistics (2,500+ daily drivers), naive continuous GPS telemetry drained devices before noon. I rebuilt the native background engine using geofencing and accelerometer filters, extending battery life across 12-hour shifts."
+            }
+        },
+        {
+            "id": 7,
+            "category": "architecture",
+            "title": { "fr": "Edge Functions", "en": "Edge Functions" },
+            "corpo": {
+                "fr": "Exécuter la logique métier au plus près de l'utilisateur mondial.",
+                "en": "Executing business logic right next to users worldwide."
+            },
+            "zerobs": {
+                "fr": "Pas de serveur lourd qui dort à Francfort. Deno Edge partout en < 20ms.",
+                "en": "No sleepy monolithic server in one region. Deno Edge globally in < 20ms."
+            },
+            "paragraph": {
+                "fr": "Les Supabase Edge Functions propulsées par Deno démarrent en 0ms (zéro cold start). Elles traitent les webhooks de paiement, les signatures cryptographiques et les transformations d'images directement sur le CDN distribué.",
+                "en": "Supabase Edge Functions powered by Deno run with zero cold starts. They execute payment webhooks, cryptographic validations, and AI embeddings closest to the requesting user."
+            }
+        },
+        {
+            "id": 8,
+            "category": "devops",
+            "title": { "fr": "CI/CD & EAS Build", "en": "CI/CD & EAS Build" },
+            "corpo": {
+                "fr": "Automatiser pour que chaque release soit un non-événement.",
+                "en": "Automate so every production release is a calm non-event."
+            },
+            "zerobs": {
+                "fr": "Git push main = tests, build iOS/Android et déploiement store auto.",
+                "en": "Git push main = tests, cross-platform builds, and automatic store deploy."
+            },
+            "paragraph": {
+                "fr": "Passer 2 heures à exporter des archives Xcode ou APK Android à la main est un gaspillage inacceptable. Avec GitHub Actions et Expo EAS, les binaires de test (TestFlight / Internal Track) et les déploiements web Vercel sont générés et signés automatiquement à chaque commit.",
+                "en": "Spending 2 hours manually archiving Xcode builds or Android APKs is unacceptable. With GitHub Actions and Expo EAS, preview builds (TestFlight / Play Store) and Vercel web deploys are compiled, signed, and published automatically on every push."
+            }
+        }
+    ]
+}
