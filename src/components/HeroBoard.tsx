@@ -321,8 +321,8 @@ export const HeroBoard: React.FC = () => {
                     en: 'YES, I PUT A POST-IT ON MY OWN PORTFOLIO.'
                   },
                   paragraph: {
-                    fr: "Ingénierie logicielle Full-Stack, Web & Mobile. Spécialiste Flutter, React Native, Next.js, Firebase, Supabase, Android Studio et architectures scalables.",
-                    en: 'Full-Stack, Web & Mobile software engineering. Specialist in Flutter, React Native, Next.js, Firebase, Supabase, Android Studio, and scalable production architectures.'
+                    fr: "Alliance de Design UI/UX et d'Ingénierie Full-Stack. Spécialiste Flutter, React Native, Next.js, Supabase, Firebase, Android Studio, systèmes de chat temps réel et automatisation réseau.",
+                    en: 'Unique blend of UI/UX Design and Full-Stack Engineering. Specialist in Flutter, React Native, Next.js, Supabase, Firebase, Android Studio, real-time chat feeds, and smart network automation.'
                   }
                 })
               }
@@ -330,9 +330,9 @@ export const HeroBoard: React.FC = () => {
               style={{ transform: 'rotate(2.5deg)' }}
             >
               <div className="postit-tape" />
-              <h3 className="font-marker text-base sm:text-lg text-stone-950">Shamsideen Tairu</h3>
+              <h3 className="font-marker text-base sm:text-lg text-stone-950">Bello Jamiu Ishola</h3>
               <p className="font-mono text-[9px] sm:text-[10px] uppercase font-bold text-stone-800 mt-1">
-                Full-Stack Developer
+                UI/UX Designer & Full-Stack Dev
               </p>
               <p className="font-marker text-[11px] sm:text-xs uppercase text-stone-800 mt-2">
                 <AnimatedMarkerText
@@ -353,8 +353,8 @@ export const HeroBoard: React.FC = () => {
 
             {/* Top Download CV (PDF) Button */}
             <a
-              href="/Shamsideen_Tairu_CV.pdf"
-              download="Shamsideen_Tairu_CV.pdf"
+              href="/Bello_Jamiu_Ishola_CV.pdf"
+              download="Bello_Jamiu_Ishola_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/90 dark:bg-stone-900/90 hover:border-orange-500 text-stone-800 dark:text-stone-100 font-mono text-xs font-bold uppercase tracking-wider shadow-sm hover:shadow-md transition-all hover:scale-105"

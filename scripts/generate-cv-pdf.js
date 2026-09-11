@@ -55,7 +55,7 @@ async function generateCV() {
   }
 
   // --- HEADER ---
-  page.drawText('SHAMSIDEEN TAIRU', {
+  page.drawText('BELLO JAMIU ISHOLA', {
     x: leftMargin,
     y: y,
     size: 20,
@@ -64,20 +64,20 @@ async function generateCV() {
   });
   y -= 16;
 
-  page.drawText('Full-Stack Developer (Web & Mobile)', {
+  page.drawText('Senior UI/UX Designer & Full-Stack Developer (Web, Mobile, IoT)', {
     x: leftMargin,
     y: y,
-    size: 11,
+    size: 10.5,
     font: fontBold,
     color: colorOrange,
   });
   y -= 14;
 
-  const contactLine = 'Maryland, USA (Open to Remote)   •   devshamsideentairu@gmail.com';
+  const contactLine = 'Lagos, Nigeria (Open to Remote Worldwide)   •   jamibelbhello0104@gmail.com   •   +234 905 095 5981   •   isholabello.space';
   page.drawText(contactLine, {
     x: leftMargin,
     y: y,
-    size: 8.5,
+    size: 8,
     font: fontRegular,
     color: colorMuted,
   });
@@ -88,13 +88,14 @@ async function generateCV() {
   // --- PROFESSIONAL SUMMARY ---
   drawSectionHeading('Professional Summary');
   const summaryLines = [
-    'Full-Stack Developer with 8+ years of engineering experience architecting and shipping high-performance cross-platform mobile apps',
-    '(Flutter, React Native, native Android) and scalable cloud-native web platforms (React, Next.js, Firebase, Supabase, Node). Specialist in',
-    'resilient offline-first mobile sync architectures, real-time operational SaaS platforms, and secure multi-tier transactional fintech workflows.',
+    'Versatile UI/UX Designer and Full-Stack Developer with 6+ years of engineering experience crafting modern, glassmorphic interfaces,',
+    'high-performance cross-platform mobile apps (Flutter, React Native, native Android), and scalable cloud-native web platforms (React, Next.js,',
+    'Firebase, Supabase, Node). Specialist in bridging human-centered design systems with robust offline-first sync architectures, real-time community',
+    'chat platforms, and enterprise IoT/network automation infrastructures.',
   ];
   for (const line of summaryLines) {
-    page.drawText(line, { x: leftMargin, y, size: 8.5, font: fontRegular, color: colorText });
-    y -= 11.5;
+    page.drawText(line, { x: leftMargin, y, size: 8.2, font: fontRegular, color: colorText });
+    y -= 11;
   }
   y -= 4;
 
@@ -115,14 +116,14 @@ async function generateCV() {
     font: fontBold,
     color: colorNdaText,
   });
-  page.drawText('A substantial portion of my production engineering work has been built under strict Non-Disclosure Agreements (NDAs) for enterprise', {
+  page.drawText('A substantial portion of my design and production engineering work has been built under strict Non-Disclosure Agreements (NDAs) for enterprise', {
     x: leftMargin + 8,
     y: y - 11.5,
     size: 7.5,
     font: fontRegular,
     color: colorNdaText,
   });
-  page.drawText('clients, healthcare institutions, and fintech platforms. The systems detailed below represent an authorized selection of public projects.', {
+  page.drawText('clients, fintech platforms, and private organizations. The systems detailed below represent an authorized selection of public projects.', {
     x: leftMargin + 8,
     y: y - 21,
     size: 7.5,
@@ -135,34 +136,57 @@ async function generateCV() {
   drawSectionHeading('Core Technical Competencies');
 
   const skillGroups = [
-    { label: '3D & Creative Web:', text: 'Three.js, WebGL, GLSL Shaders, Draco / GLTF 3D Optimization, Canvas API, Framer Motion, Anime.js' },
+    { label: 'UI/UX & Design Systems:', text: 'Figma, Adobe XD, Wireframing, Glassmorphism, Micro-interactions, Design Tokens, User Journey Mapping' },
+    { label: '3D & Creative Web:', text: 'Three.js, WebGL, GLSL Shaders, Draco / GLTF 3D Optimization, Canvas API, Framer Motion, Anime.js, Tailwind' },
     { label: 'Mobile Engineering:', text: 'Flutter, Dart, React Native, Expo, Android Studio (Java & Kotlin), SQLite, Isar, Offline-First Sync, FCM' },
-    { label: 'Frontend & Web:', text: 'React 19, Next.js 15 (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS, shadcn/ui, Recharts, Vite' },
-    { label: 'Backend & Cloud DB:', text: 'Supabase (PostgreSQL, Row-Level Security, Edge Functions), Firebase (Firestore, Auth, Functions), Node.js' },
-    { label: 'DevOps & Tooling:', text: 'REST & GraphQL APIs, WebSockets, Git, GitHub Actions (CI/CD), Fastlane, Docker, Clean Architecture' },
+    { label: 'Frontend & Web Platforms:', text: 'React 19, Next.js 15 (App Router), TypeScript, JavaScript (ES6+), Tailwind CSS, shadcn/ui, Recharts, Vite' },
+    { label: 'Backend, Cloud & IoT:', text: 'Supabase (PostgreSQL, RLS, Edge Functions), Firebase (Firestore, Auth), Node.js, Network / IoT Automation' },
   ];
 
   for (const sg of skillGroups) {
     page.drawText(sg.label, { x: leftMargin, y, size: 8, font: fontBold, color: colorPrimary });
     const labelWidth = fontBold.widthOfTextAtSize(sg.label, 8);
     page.drawText(sg.text, { x: leftMargin + labelWidth + 4, y, size: 8, font: fontRegular, color: colorText });
-    y -= 11.5;
+    y -= 11;
   }
   y -= 4;
 
   // --- PRODUCTION PROJECTS ---
-  drawSectionHeading('Selected Production Projects & Systems Experience');
+  drawSectionHeading('Selected Experience & Production Systems');
 
   const projects = [
     {
-      title: 'NutriCare — AI Senior Nutrition Platform',
+      title: 'ForteSoft NIIT — UI/UX Design & Mobile Engineering Lead',
+      role: 'UI/UX Designer & Mobile App Developer',
+      dates: '2023 – Present',
+      url: 'fortesoft.com  |  isholabello.space',
+      tech: 'Figma, React Native, Java, Android Studio, Firebase, WebSockets',
+      bullets: [
+        'Spearheaded user research and produced design systems, interactive prototypes, and glassmorphic UI components in Figma.',
+        'Engineered real-time chat architectures and student community feeds with low-latency messaging, active state sync, and file sharing.',
+        'Streamlined mobile onboarding flows, increasing overall user conversion by 45% and slashing drop-off rates.',
+      ],
+    },
+    {
+      title: 'V2D Convergence — Network Infrastructure & Systems Specialist',
+      role: 'Network Engineer',
+      dates: '2022 – 2023',
+      url: 'v2dconvergence.com',
+      tech: 'VLANs, Cisco Routing, IoT Sensors, CCTV Telemetry, Network Security',
+      bullets: [
+        'Designed, deployed, and maintained enterprise networking, smart IoT automation systems, and surveillance telemetries.',
+        'Optimized routing protocols, network security policies, and fault-tolerant hardware architectures achieving 99.9% uptime.',
+      ],
+    },
+    {
+      title: 'NutriCare — AI Senior Nutrition & Health Platform',
       role: 'Lead Full-Stack & Mobile Developer',
       dates: 'Jan 2024 – Present',
       url: 'nutricareelderly1.vercel.app',
       tech: 'Flutter, Dart, React, Tailwind CSS, Next.js, Kotlin, Supabase',
       bullets: [
-        'Engineered cross-platform mobile and web application in Flutter, Dart, and Supabase, serving 1,000+ active seniors with a 4.9/5 satisfaction score.',
-        'Developed dietary algorithm calculating glycemic impact across 50+ Nigerian dishes for elderly users managing diabetes and hypertension.',
+        'Engineered cross-platform mobile and web application in Flutter, Dart, and Supabase, serving 1,000+ active seniors with a 4.9/5 rating.',
+        'Developed dietary algorithm calculating glycemic impact across 50+ dishes for elderly users managing diabetes and hypertension.',
         'Built background native medication alerts with drug-food interaction checks and encrypted Supabase cloud synchronization.',
       ],
     },
@@ -175,7 +199,6 @@ async function generateCV() {
       bullets: [
         'Architected group savings (Ajo/Esusu) and digital wallet platform handling real funds with atomic balance updates and bank-grade encryption.',
         'Built progressive web app offline sync and real-time transaction reconciliation with zero balance discrepancy.',
-        'Optimized KYC verification and registration flows, reducing user drop-off rate by 35%.',
       ],
     },
     {
@@ -190,47 +213,14 @@ async function generateCV() {
       ],
     },
     {
-      title: 'Ops4Ease — African SME Operations SaaS',
-      role: 'Full-Stack SaaS Developer',
-      dates: 'Aug 2022 – Dec 2022',
-      url: 'ops4ease.com',
-      tech: 'React, TypeScript, Vite, Firebase, Tailwind CSS',
+      title: 'Ops4Ease & Depeace Travel — SaaS & Global Booking Platforms',
+      role: 'Full-Stack Web & SaaS Developer',
+      dates: '2022',
+      url: 'ops4ease.com  |  depeacetravels.com',
+      tech: 'React, TypeScript, Vite, Supabase, Firebase, Tailwind CSS, shadcn/ui',
       bullets: [
-        'Engineered all-in-one SME business operations SaaS platform replacing fragmented tools with task tracking, attendance, HR, and analytics.',
-        'Built multi-tenant role-based access control (RBAC) ensuring data isolation; reduced weekly reporting overhead by 40%.',
-      ],
-    },
-    {
-      title: 'Depeace Global Travel — Travel Booking Hub & CMS',
-      role: 'Full-Stack Web Developer',
-      dates: 'Jan 2022 – Jul 2022',
-      url: 'depeacetravels.com',
-      tech: 'React, TypeScript, Vite, Tailwind CSS, shadcn/ui, Supabase',
-      bullets: [
-        'Delivered travel and pilgrimage booking platform for Hajj/Umrah packages, international flights, and visa processing.',
-        'Configured dynamic Supabase CMS allowing instant package updates; increased customer inquiry conversion by 45%.',
-      ],
-    },
-    {
-      title: 'Infinite Studio Space — Production Studio Platform',
-      role: 'Full-Stack Developer',
-      dates: 'Jul 2021 – Dec 2021',
-      url: 'infinitestudio.space',
-      tech: 'Next.js 14, React, TypeScript, Tailwind CSS, Lucide Icons',
-      bullets: [
-        'Created editorial web showcase and booking system for an 8-studio space handling 4,000+ booked studio hours.',
-        'Optimized WebP multimedia pipeline, achieving a 98+ Google Lighthouse performance score.',
-      ],
-    },
-    {
-      title: 'Provenance School & Willow Health — Platform Consulting',
-      role: 'Full-Stack Developer',
-      dates: '2020 – 2021',
-      url: 'provenancesch.com  |  campus-wellnes.web.app',
-      tech: 'React, TypeScript, Firebase, Supabase, Recharts, Tailwind CSS',
-      bullets: [
-        'Built interactive webinar portal for Provenance Business School with dual student and tutor role-based portals.',
-        'Engineered Willow Health campus wellness triage platform featuring interactive clinical analytics with Recharts.',
+        'Engineered all-in-one SME business operations SaaS platform with task tracking, attendance, HR, and analytics (Ops4Ease).',
+        'Delivered travel and pilgrimage booking platform with dynamic Supabase CMS, increasing inquiry conversions by 45% (Depeace).',
       ],
     },
   ];
@@ -242,7 +232,7 @@ async function generateCV() {
     }
 
     // Title line
-    page.drawText(proj.title, { x: leftMargin, y, size: 9, font: fontBold, color: colorPrimary });
+    page.drawText(proj.title, { x: leftMargin, y, size: 8.8, font: fontBold, color: colorPrimary });
     page.drawText(proj.dates, {
       x: rightMargin - fontBold.widthOfTextAtSize(proj.dates, 8),
       y,
@@ -288,7 +278,7 @@ async function generateCV() {
   }
   drawSectionHeading('Certifications & Languages');
 
-  page.drawText('Certifications: Advanced Flutter & Dart Mobile Architecture  •  Enterprise Supabase Database Engineering  •  Firebase Cloud Architecture', {
+  page.drawText('Certifications: Certified UI/UX Design Specialist (Figma)  •  Advanced Flutter Mobile Architecture  •  Enterprise Cloud & Database Engineering', {
     x: leftMargin,
     y,
     size: 7.5,
@@ -297,7 +287,7 @@ async function generateCV() {
   });
   y -= 11;
 
-  page.drawText('Languages: English (Native / Full Professional Proficiency)', {
+  page.drawText('Languages: English (Native / Full Professional Proficiency), Yoruba', {
     x: leftMargin,
     y,
     size: 7.5,
@@ -306,9 +296,12 @@ async function generateCV() {
   });
 
   const pdfBytes = await pdfDoc.save();
-  const outputPath = path.resolve('public', 'Shamsideen_Tairu_CV.pdf');
+  const outputPath = path.resolve('public', 'Bello_Jamiu_Ishola_CV.pdf');
   fs.writeFileSync(outputPath, pdfBytes);
-  console.log(`Generated PDF CV successfully at: ${outputPath} (${pdfBytes.length} bytes)`);
+  // Also write to Shamsideen_Tairu_CV.pdf as fallback
+  const fallbackPath = path.resolve('public', 'Shamsideen_Tairu_CV.pdf');
+  fs.writeFileSync(fallbackPath, pdfBytes);
+  console.log(`Generated PDF CV successfully at: ${outputPath} and ${fallbackPath}`);
 }
 
 generateCV().catch(err => {

@@ -37,7 +37,7 @@ export const Navbar: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center">
-            {/* ST. Logo */}
+            {/* BJ. Logo */}
             <a
               href="#hero"
               onClick={(e) => {
@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
               }}
               className="text-base font-bold tracking-tighter uppercase text-stone-900 dark:text-stone-100 hover:text-orange-500 transition-colors"
             >
-              ST.
+              BJ.
             </a>
 
             {/* Desktop Navigation Links */}
@@ -190,8 +190,8 @@ export const Navbar: React.FC = () => {
 
             {/* Download CV Button */}
             <a
-              href="/Shamsideen_Tairu_CV.pdf"
-              download="Shamsideen_Tairu_CV.pdf"
+              href="/Bello_Jamiu_Ishola_CV.pdf"
+              download="Bello_Jamiu_Ishola_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className={`hidden sm:inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border transition-all ${
@@ -265,8 +265,8 @@ export const Navbar: React.FC = () => {
               {siteContent.nav.diagnostic[language]}
             </button>
             <a
-              href="/Shamsideen_Tairu_CV.pdf"
-              download="Shamsideen_Tairu_CV.pdf"
+              href="/Bello_Jamiu_Ishola_CV.pdf"
+              download="Bello_Jamiu_Ishola_CV.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 py-2 border-b border-stone-800 text-orange-400 font-bold"

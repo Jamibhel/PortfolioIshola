@@ -129,8 +129,8 @@ export const ContactSection: React.FC = () => {
 
               <p className="text-xs sm:text-sm text-stone-300 font-light leading-relaxed mb-6">
                 {language === 'fr'
-                  ? 'Pour toute opportunité de Développeur Full-Stack, création d’app mobile ou refonte d’architecture, écrivez-moi directement.'
-                  : 'For full-stack developer roles, mobile apps, or backend architecture consulting, reach out directly via email.'}
+                  ? 'Pour toute opportunité UI/UX Design, Développeur Full-Stack, création d’app mobile ou refonte d’architecture, écrivez-moi directement.'
+                  : 'For UI/UX design roles, full-stack development, mobile apps, or system architecture consulting, reach out directly.'}
               </p>
 
               {/* Email Display & Copy Button */}
@@ -161,19 +161,31 @@ export const ContactSection: React.FC = () => {
                 </button>
               </div>
 
-              {/* Action Buttons: Direct Mailto & Download CV */}
+              {/* Action Buttons: Direct Mailto, WhatsApp & Download CV */}
               <div className="flex flex-col gap-3">
                 <a
-                  href={`mailto:${contactData.email}?subject=Project%20Collaboration%20-%20Shamsideen%20Tairu`}
+                  href={`mailto:${contactData.email}?subject=Project%20Collaboration%20-%20Bello%20Jamiu%20Ishola`}
                   className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-orange-500 hover:bg-orange-600 text-stone-950 font-bold text-xs font-mono uppercase tracking-wider transition-all shadow-lg shadow-orange-500/25 hover:scale-[1.02]"
                 >
                   <Mail className="w-4 h-4" />
                   {contactData.writeEmail[language]}
                 </a>
 
+                {contactData.whatsapp && (
+                  <a
+                    href={contactData.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs font-mono uppercase tracking-wider transition-all shadow-md hover:scale-[1.02]"
+                  >
+                    <span>💬</span>
+                    <span>WhatsApp ({contactData.whatsappDisplay})</span>
+                  </a>
+                )}
+
                 <a
-                  href="/Shamsideen_Tairu_CV.pdf"
-                  download="Shamsideen_Tairu_CV.pdf"
+                  href="/Bello_Jamiu_Ishola_CV.pdf"
+                  download="Bello_Jamiu_Ishola_CV.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl border border-stone-700 hover:border-orange-400/60 bg-stone-950 hover:bg-stone-900 text-stone-200 font-bold text-xs font-mono uppercase tracking-wider transition-all"
@@ -184,20 +196,47 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Quick Details Card */}
-            <div className="p-6 rounded-2xl bg-stone-900/80 border border-stone-800/80 flex flex-col gap-4 text-xs font-mono text-stone-300">
+            {/* Quick Details & Social Profiles Card */}
+            <div className="p-6 rounded-2xl bg-stone-900/80 border border-stone-800/80 flex flex-col gap-3 text-xs font-mono text-stone-300">
               <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-orange-400" />
+                <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0" />
                 <span>{contactData.location[language]}</span>
               </div>
 
               <div className="flex items-center gap-3 text-stone-400">
-                <Mail className="w-4 h-4 text-orange-400" />
+                <Mail className="w-4 h-4 text-orange-400 flex-shrink-0" />
                 <a
                   href={`mailto:${contactData.email}`}
-                  className="hover:text-orange-400 transition-colors underline underline-offset-4"
+                  className="hover:text-orange-400 transition-colors underline underline-offset-4 truncate"
                 >
                   {contactData.email}
+                </a>
+              </div>
+
+              <div className="flex items-center justify-between pt-3 border-t border-stone-800/80 mt-1">
+                <a
+                  href={contactData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-400 hover:text-orange-400 transition-colors uppercase font-bold text-[10px] tracking-wider"
+                >
+                  GitHub ↗
+                </a>
+                <a
+                  href={contactData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-400 hover:text-orange-400 transition-colors uppercase font-bold text-[10px] tracking-wider"
+                >
+                  LinkedIn ↗
+                </a>
+                <a
+                  href={contactData.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-stone-400 hover:text-orange-400 transition-colors uppercase font-bold text-[10px] tracking-wider"
+                >
+                  isholabello.space ↗
                 </a>
               </div>
             </div>

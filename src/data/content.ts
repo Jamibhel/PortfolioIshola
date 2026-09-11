@@ -15,47 +15,47 @@ export const siteContent = {
   hero: {
     statusBadge: {
       corporate: {
-        fr: 'Disponible pour missions Full-Stack & Mobile',
-        en: 'Available for Full-Stack & Mobile Opportunities'
+        fr: 'Disponible pour missions UI/UX, Full-Stack & Mobile',
+        en: 'Available for UI/UX, Full-Stack & Mobile Opportunities'
       },
       zb: {
-        fr: 'Code propre. Zéro dette technique. En production.',
-        en: 'Clean code. Zero technical rot. Shipped to production.'
+        fr: 'Design d’élite. Code propre. En production.',
+        en: 'Elite UI/UX. Clean code. Shipped to production.'
       }
     },
     title: {
       line1: {
-        corporate: { fr: 'Architecturer les systèmes.', en: 'Architect systems.' },
-        zb: { fr: 'Vos apps rament.', en: 'Your apps stutter.' }
+      corporate: { fr: 'Concevoir l’expérience.', en: 'Design the experience.' },
+        zb: { fr: 'Vos interfaces rebutent.', en: 'Your UI repels users.' }
       },
       line2: {
         corporate: { fr: 'Développer Web & Mobile.', en: 'Build Web & Mobile.' },
-        zb: { fr: 'Votre backend bloque.', en: 'Your backend stalls.' }
+        zb: { fr: 'Vos apps saccadent.', en: 'Your apps drop frames.' }
       },
       line3: {
         corporate: { fr: 'Livrer à grande échelle.', en: 'Ship at scale.' },
-        zb: { fr: 'Je règle la racine.', en: 'I fix the root cause.' }
+        zb: { fr: 'J’allie design & code.', en: 'I unite design & code.' }
       }
     },
     subtitle: {
       corporate: {
-        fr: "Développeur Full-Stack & Mobile (Flutter, React Native, Next.js, Firebase, Supabase, Android).<br />Basé à Maryland, USA (Remote). Je conçois des apps mobiles performantes et des plateformes web scalables.<br />Parce qu'une belle interface ne survit jamais à une mauvaise architecture.",
-        en: "Full-Stack Developer (Flutter, React Native, Next.js, Firebase, Supabase, Android).<br />Based in Maryland, USA (Remote). Building high-performance mobile apps and resilient web platforms.<br />Because a sleek UI never survives a fragile backend architecture."
+        fr: "UI/UX Designer & Développeur Full-Stack (Flutter, React Native, Next.js, Firebase, Supabase, Glassmorphism).<br />Conception d’expériences numériques immersives et d’architectures mobiles & web résilientes.<br />Parce qu’une superbe interface sans architecture robuste n’est qu’une coquille vide.",
+        en: "UI/UX Designer & Full-Stack Developer (Flutter, React Native, Next.js, Firebase, Supabase, Glassmorphism).<br />Crafting user-centered digital experiences and high-performance mobile & web architectures.<br />Because a beautiful design requires an equally resilient engineering backbone."
       },
       zb: {
-        fr: "Des apps mobiles 60fps et des backends qui encaissent la charge sans broncher.<br />Pas de frameworks à la mode jetables : du code typé, testé et taillé pour la production.",
-        en: "60fps mobile apps and resilient backends that scale effortlessly under real user load.<br />No throwaway hype: typed, tested, production-grade architecture from day one."
+        fr: "Des interfaces fluides au pixel près, des apps mobiles 60fps et des backends temps réel.<br />Zéro compromis entre esthétique visuelle et performance technique.",
+        en: "Pixel-perfect interfaces, 60fps native mobile apps, and low-latency real-time backends.<br />Zero compromise between award-winning aesthetics and high-load scalability."
       }
     },
     badges: [
-      { fr: '3D & WEBGL (THREE.JS / SHADERS / DRACO)', en: '3D & WEBGL (THREE.JS / SHADERS / DRACO)' },
-      { fr: 'MOBILE (FLUTTER / REACT NATIVE / ANDROID)', en: 'MOBILE (FLUTTER / REACT NATIVE / ANDROID)' },
-      { fr: 'FULL-STACK (REACT / NEXT.JS / TYPESCRIPT)', en: 'FULL-STACK (REACT / NEXT.JS / TYPESCRIPT)' },
-      { fr: 'CLOUD & DB (SUPABASE / FIREBASE / POSTGRES)', en: 'CLOUD & DB (SUPABASE / FIREBASE / POSTGRES)' }
+      { fr: 'UI/UX & DESIGN (GLASSMORPHISM / FIGMA / TOKENS)', en: 'UI/UX & DESIGN (GLASSMORPHISM / FIGMA / TOKENS)' },
+      { fr: 'MOBILE DEV (FLUTTER / REACT NATIVE / ANDROID)', en: 'MOBILE DEV (FLUTTER / REACT NATIVE / ANDROID)' },
+      { fr: 'FULL-STACK (REACT / NEXT.JS / TYPESCRIPT / NODE)', en: 'FULL-STACK (REACT / NEXT.JS / TYPESCRIPT / NODE)' },
+      { fr: 'CLOUD & IOT (SUPABASE / FIREBASE / NETWORKING)', en: 'CLOUD & IOT (SUPABASE / FIREBASE / NETWORKING)' }
     ],
     signaturePostIt: {
-      name: 'Shamsideen Tairu',
-      role: 'Full-Stack Developer',
+      name: 'Bello Jamiu Ishola',
+      role: 'UI/UX Designer & Full-Stack Developer',
       frontPunchline: {
         fr: "— oui, j'ai mis un post-it sur mon propre portfolio.",
         en: '— yes, I put a post-it on my own portfolio.'
@@ -65,8 +65,8 @@ export const siteContent = {
         en: 'read +'
       },
       backText: {
-        fr: "Ingénierie logicielle Full-Stack, Web & Mobile. Spécialiste Flutter, React Native, Next.js, Firebase, Supabase, Android Studio et architectures scalables.",
-        en: 'Full-Stack, Web & Mobile software engineering. Specialist in Flutter, React Native, Next.js, Firebase, Supabase, Android Studio, and scalable production architectures.'
+        fr: "Alliance unique de Design UI/UX et d'Ingénierie Full-Stack. Spécialiste Flutter, React Native, Next.js, Supabase, Firebase, Android Studio, systèmes de chat temps réel et automatisation réseau.",
+        en: 'Unique blend of UI/UX Design and Full-Stack Engineering. Specialist in Flutter, React Native, Next.js, Supabase, Firebase, Android Studio, real-time chat feeds, and smart network automation.'
       },
       backClose: {
         fr: 'Cliquer pour revenir',
@@ -85,12 +85,12 @@ export const siteContent = {
   },
   intro: {
     corporate: {
-      fr: "Ingénieur Full-Stack & Mobile basé à Maryland, USA. Spécialisé dans le développement d'applications mobiles cross-platform (Flutter, React Native, Android natif), d'interfaces web réactives (React, Next.js) et d'architectures de données robustes (Firebase, Supabase, PostgreSQL). Note : une grande partie de mes réalisations est sous contrat NDA.",
-      en: "Full-Stack Developer based in Maryland, USA. Specializing in cross-platform mobile apps (Flutter, React Native, native Android), responsive web platforms (React, Next.js), and resilient cloud/database architectures (Firebase, Supabase, PostgreSQL). Note: many major systems built cannot be publicly showcased due to NDAs."
+      fr: "UI/UX Designer & Ingénieur Full-Stack. Expérience éprouvée dans la conception d'interfaces modernes (glassmorphism, micro-interactions, ergonomie), le développement d'applications mobiles complexes (systèmes de chat, fils communautaires avec Flutter et Android natif), d'architectures web réactives (React, Next.js) et l'ingénierie réseau / domotique. Note : une partie de mes réalisations d'entreprise est sous contrat NDA.",
+      en: "UI/UX Designer & Full-Stack Developer. Proven expertise in crafting modern interfaces (glassmorphism, micro-interactions, human-centered UX), developing complex mobile applications (real-time chat systems, community feeds with Flutter & native Android), resilient web platforms (React, Next.js), and smart network automation. Note: a portion of enterprise systems is under strict NDA."
     },
     zb: {
-      fr: "Plein de développeurs empilent des librairies sans comprendre pourquoi leur app mobile freeze ou pourquoi la base de données sature. Moi je supprime la friction : architecture offline-first, indexation PostgreSQL chirurgicale, règles Firebase/Supabase étanches et composants ultra-légers. Moins de sur-ingénierie, plus de vélocité réelle.",
-      en: "Too many developers blindly stack npm packages without understanding why mobile frames drop or why database connections stall. I eliminate the friction: offline-first caching, surgical database indexing, airtight authorization rules, and lightweight UI components. Maximum velocity with zero technical debt."
+      fr: "Trop de designers ne savent pas coder et trop de développeurs créent des interfaces austères. Je combine les deux mondes : maquettage haute fidélité, micro-animations ultra-fluides, persistance offline-first, indexation PostgreSQL chirurgicale et règles de sécurité cloud étanches.",
+      en: "Too many designers don't understand code constraints, and too many engineers build rigid interfaces. I bridge the gap: high-fidelity visual design, 60fps gestural micro-interactions, offline-first mobile sync, surgical PostgreSQL indexing, and zero technical rot."
     }
   },
   projects: {
@@ -99,8 +99,8 @@ export const siteContent = {
       en: 'Flagship Projects & Systems'
     },
     subtitle: {
-      fr: 'Applications Web & Mobiles en production (Flutter, React, Next.js, Firebase, Supabase). Note : Plusieurs projets d’envergure ne peuvent être présentés ici en raison d’accords de confidentialité (NDAs).',
-      en: 'Production-grade Web & Mobile apps (Flutter, React, Next.js, Firebase, Supabase). Note: A substantial portion of projects built cannot be publicly showcased due to non-disclosure agreements (NDAs).'
+      fr: 'Applications UI/UX, Web & Mobiles en production (Flutter, React, Next.js, Firebase, Supabase). Note : Plusieurs projets d’envergure ne peuvent être présentés ici en raison d’accords de confidentialité (NDAs).',
+      en: 'Production-grade UI/UX, Web & Mobile apps (Flutter, React, Next.js, Firebase, Supabase). Note: A substantial portion of projects built cannot be publicly showcased due to non-disclosure agreements (NDAs).'
     },
     ndaDisclaimer: {
       fr: '🔒 Note de confidentialité : La plupart de mes projets complexes et systèmes d’entreprise ont été réalisés sous accords de confidentialité stricts (NDAs). Les 8 projets ci-dessous représentent une sélection autorisée de mes travaux publics.',
@@ -112,36 +112,41 @@ export const siteContent = {
     filterCloud: { fr: 'Supabase & Firebase Cloud', en: 'Cloud & Database' }
   },
   convictions: {
-    sectionTitle: { fr: 'Philosophie Technique', en: 'Engineering Philosophy' },
+    sectionTitle: { fr: 'Philosophie & Vision', en: 'Design & Engineering Philosophy' },
     headline: {
-      fr: "L'excellence logicielle est une discipline de simplicité.",
-      en: 'Software excellence is a discipline of radical simplicity.'
+      fr: "L'excellence produit est la fusion parfaite du design et de l'ingénierie.",
+      en: 'Product excellence is the seamless fusion of design empathy and engineering precision.'
     }
   },
   contact: {
     sectionTitle: { fr: 'Contact Direct', en: 'Direct Contact' },
     headline: {
-      fr: 'Parlons de votre prochain projet par email.',
-      en: 'Let’s discuss your next project directly via email.',
-      zbFr: 'Besoin d’un dev qui livre vraiment ? Envoyez un email.',
-      zbEn: 'Need a full-stack developer who actually delivers? Send an email.'
+      fr: 'Parlons de votre prochain projet par email ou WhatsApp.',
+      en: 'Let’s discuss your next project directly via Email or WhatsApp.',
+      zbFr: 'Besoin d’un designer & dev qui livre vraiment ? Écrivez-moi.',
+      zbEn: 'Need a UI/UX designer & developer who actually delivers? Let’s talk.'
     },
     subtext: {
-      fr: 'Disponible pour des opportunités Full-Stack, développement d’applications mobiles Flutter / React Native, création de SaaS et conseil en architecture.',
-      en: 'Available for Full-Stack developer roles, Flutter & React Native mobile development, SaaS architecture, and technical consulting.',
-      zbFr: 'Vous avez une app mobile à sortir ou un produit web à scaler ? Discutons concrètement par email.',
-      zbEn: 'Have a mobile app to ship or a web platform to scale? Let’s talk concrete solutions via email.'
+      fr: 'Disponible pour des opportunités UI/UX Design, Full-Stack, applications mobiles Flutter / React Native, création de SaaS et conseil en architecture.',
+      en: 'Available for UI/UX Design roles, Full-Stack engineering, Flutter & React Native mobile development, SaaS architecture, and technical consulting.',
+      zbFr: 'Vous avez une app mobile à designer et coder, ou un produit web à scaler ? Discutons concrètement.',
+      zbEn: 'Have a mobile app to design & ship or a web platform to scale? Let’s talk concrete solutions.'
     },
-    email: 'devshamsideentairu@gmail.com',
-    location: { fr: 'Maryland, USA • Remote', en: 'Maryland, USA • Remote' },
+    email: 'jamibelbhello0104@gmail.com',
+    whatsapp: 'https://wa.me/2349050955981',
+    whatsappDisplay: '+234 905 095 5981',
+    github: 'https://github.com/Jamibhel',
+    linkedin: 'https://www.linkedin.com/in/bello-muh-jamiu-ishola-10371724a',
+    portfolioUrl: 'https://isholabello.space',
+    location: { fr: 'Nigeria • Remote (International)', en: 'Nigeria • Remote (International)' },
     writeEmail: { fr: 'M’écrire un email direct', en: 'Send a Direct Email' },
-    downloadCv: { fr: 'Télécharger mon CV (PDF/TXT)', en: 'Download Resume / CV' }
+    downloadCv: { fr: 'Télécharger mon CV (PDF)', en: 'Download Resume / CV (PDF)' }
   },
   diagnostic: {
-    sectionTitle: { fr: 'Audit Stack & Scalabilité V8', en: 'Stack & Scalability Audit V8' },
+    sectionTitle: { fr: 'Audit Stack & UX V8', en: 'Stack & UX Audit V8' },
     subtitle: {
-      fr: 'Évaluez en 4 questions la maturité de votre stack Web & Mobile et obtenez un diagnostic d’architecture.',
-      en: 'Assess in 4 questions the health and scalability of your Web & Mobile stack with instant architectural diagnosis.'
+      fr: 'Évaluez en 4 questions la maturité de votre stack Web, Mobile & UX et obtenez un diagnostic complet.',
+      en: 'Assess in 4 questions the health, scalability and UX quality of your Web & Mobile stack with instant diagnosis.'
     },
     cta: {
       fr: 'M’envoyer les résultats par email',
@@ -149,8 +154,8 @@ export const siteContent = {
     }
   },
   footer: {
-    role: 'Full-Stack Developer (Flutter • React Native • Next.js • Supabase)',
-    copy: 'Shamsideen Tairu Portfolio © 2021 • Built with React, Tailwind, Three.js & Supabase'
+    role: 'UI/UX Designer & Full-Stack Developer (Figma • Flutter • React Native • Next.js • Supabase)',
+    copy: 'Bello Jamiu Ishola Portfolio © 2026 • Crafted with passion, precision & Three.js'
   }
 };
 
@@ -455,34 +460,34 @@ export const convictions: TechnicalConviction[] = [
 
 export const technicalSkills: SkillCategory[] = [
   {
-    id: '3d-graphics',
-    title: { fr: '3D & Expériences Interactives', en: '3D & Interactive Graphics' },
-    tagline: { fr: 'Rendu temps réel, shaders & WebGL fluide', en: 'Real-time rendering, shaders & silky WebGL' },
-    skills: ['Three.js', 'WebGL', 'GLSL Shaders', 'Draco / GLTF 3D', 'Canvas API', 'Framer Motion', 'Anime.js']
+    id: 'ui-ux-design',
+    title: { fr: 'UI/UX Design & Systèmes d’Interface', en: 'UI/UX Design & Design Systems' },
+    tagline: { fr: 'Glassmorphism, micro-interactions & ergonomie', en: 'Glassmorphism, micro-interactions & user empathy' },
+    skills: ['Figma & FigJam', 'Glassmorphism UI', 'Design Tokens', 'Wireframing & Prototyping', 'Spatial Layouts', 'shadcn/ui & Tailwind', 'Accessibility (a11y)']
   },
   {
     id: 'mobile-dev',
-    title: { fr: 'Ingénierie Mobile Multiplateforme', en: 'Cross-Platform & Native Mobile' },
-    tagline: { fr: 'Apps 60fps résilientes offline-first', en: '60fps resilient offline-first native apps' },
-    skills: ['Flutter & Dart', 'React Native / Expo', 'Android Studio', 'Java & Kotlin', 'SQLite / Isar Cache', 'FCM Push Notifications', 'Native Bridges']
+    title: { fr: 'Ingénierie Mobile & Temps Réel', en: 'Mobile Engineering & Real-Time' },
+    tagline: { fr: 'Apps 60fps, chat instantané & flux communautaires', en: '60fps apps, real-time chat & community feeds' },
+    skills: ['Flutter & Dart', 'React Native / Expo', 'Android Studio (Java/Kotlin)', 'Real-Time Chat Systems', 'Community Feeds', 'SQLite / Offline Sync', 'FCM Push Notifications']
   },
   {
     id: 'web-fullstack',
     title: { fr: 'Web Moderne & Frontend Réactif', en: 'Modern Web & Full-Stack' },
     tagline: { fr: 'Composants typés, SSR & design systems', en: 'Typed components, SSR & design systems' },
-    skills: ['React 19', 'Next.js 15 (App Router)', 'TypeScript', 'Tailwind CSS', 'shadcn/ui', 'Recharts', 'Vite', 'Zustand / Riverpod']
+    skills: ['React 19', 'Next.js 15 (App Router)', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Recharts', 'Vite', 'Zustand / Redux']
   },
   {
     id: 'cloud-data',
     title: { fr: 'Cloud, Données & Temps Réel', en: 'Cloud, Databases & Real-Time' },
     tagline: { fr: 'Architectures résilientes et sécurité RLS', en: 'Resilient architectures & RLS data security' },
-    skills: ['Supabase (PostgreSQL / RLS)', 'Firebase (Firestore / Auth)', 'Edge Functions', 'pgvector & AI embeddings', 'REST & GraphQL APIs', 'WebSockets']
+    skills: ['Supabase (PostgreSQL / RLS)', 'Firebase (Firestore / Auth)', 'Edge Functions', 'WebSockets', 'REST & GraphQL APIs', 'pgvector']
   },
   {
-    id: 'devops-security',
-    title: { fr: 'DevOps, Sécurité & Architecture', en: 'DevOps, Security & Tooling' },
-    tagline: { fr: 'Pipelines CI/CD et qualité de code', en: 'Automated CI/CD pipelines & code quality' },
-    skills: ['GitHub Actions (CI/CD)', 'Fastlane', 'Docker', 'Turborepo', 'Clean Architecture & TDD', 'OWASP Standards', 'Performance Profiling']
+    id: 'network-iot',
+    title: { fr: 'Ingénierie Réseau & Domotique IoT', en: 'Network Engineering & Smart IoT' },
+    tagline: { fr: 'Domotique, automatisation & infrastructure réseau', en: 'Smart home automation, IoT & network topology' },
+    skills: ['Smart Home Systems', 'On-Site & Off-Site Networking', 'IoT Protocols', 'Network Topology & Security', 'Hardware Interfacing', 'Docker & CI/CD']
   }
 ];
 

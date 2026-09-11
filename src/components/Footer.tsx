@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
 
         <div className="text-center md:text-right">
           <p className="text-[10px] font-mono font-light uppercase tracking-widest leading-loose text-stone-400">
-            Shamsideen Tairu — 2021 — {siteContent.footer.role}
+            Bello Jamiu Ishola — 2026 — {siteContent.footer.role}
           </p>
           <p className="text-[9px] font-mono text-stone-500 font-light uppercase tracking-widest mt-1">
             {siteContent.footer.copy}
