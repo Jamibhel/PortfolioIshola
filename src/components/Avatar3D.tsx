@@ -1,277 +1,28 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { useApp } from '../context/AppContext';
 
 interface Avatar3DProps {
   lookAtTarget?: { x: number; y: number } | null;
 }
 
-// Color Tokens for Bello Jamiu Ishola 3D Avatar
-const JAMIU_SKIN_COLOR = new THREE.Color('#4d2e1b');
-const JAMIU_HAIR_COLOR = new THREE.Color('#0c0d10');
-const SWEATER_NAVY = new THREE.Color('#162032');
-const SWEATER_CREAM = new THREE.Color('#e5dac7');
-const SWEATER_RED = new THREE.Color('#dc2626');
-const ZB_SWEATER_BASE = new THREE.Color('#ea580c');
-const PANTS_COLOR = new THREE.Color('#0f172a');
-
-// Procedural 2048x2048 UV Texture Map for Bello Jamiu Ishola
-function createJamiuTexture(isZBMode = false): THREE.CanvasTexture {
-  const size = 2048;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d')!;
-
-  const toX = (pct: number) => (pct / 100) * size;
-  const toY = (pct: number) => (pct / 100) * size;
-
-  // Colors
-  const skinBase = '#4d2e1b';
-  const skinHighlight = '#633e28';
-  const skinShadow = '#381f11';
-  const hairColor = '#0c0d10';
-  const navyKnit = isZBMode ? '#9a3412' : '#182438';
-  const navyDark = isZBMode ? '#7c2d12' : '#101827';
-  const creamStripe = isZBMode ? '#ffedd5' : '#e5dac7';
-  const redStripe = isZBMode ? '#fbbf24' : '#dc2626';
-  const pantsColorHex = '#0f172a';
-
-  // 1. Base Fill
-  ctx.fillStyle = navyDark;
-  ctx.fillRect(0, 0, size, size);
-
-  // 2. Sweater Torso, Lower Panels & Sleeves
-  const sweaterRegions = [
-    { x: 0, y: toY(45), w: toX(52), h: toY(55) }, // Lower torso & jacket panels
-    { x: toX(14), y: toY(20), w: toX(37), h: toY(28) }, // Upper chest & back
-    { x: 0, y: toY(10), w: toX(16), h: toY(38) }, // Left sleeve
-    { x: toX(80), y: toY(5), w: toX(20), h: toY(42) }, // Right sleeve
-  ];
-
-  sweaterRegions.forEach((r) => {
-    const grad = ctx.createLinearGradient(r.x, r.y, r.x, r.y + r.h);
-    grad.addColorStop(0, navyDark);
-    grad.addColorStop(0.5, navyKnit);
-    grad.addColorStop(1, navyDark);
-    ctx.fillStyle = grad;
-    ctx.fillRect(r.x, r.y, r.w, r.h);
-
-    // Knit texture lines
-    ctx.strokeStyle = isZBMode ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.04)';
-    ctx.lineWidth = 2;
-    for (let y = r.y; y < r.y + r.h; y += 8) {
-      ctx.beginPath();
-      ctx.moveTo(r.x, y);
-      ctx.lineTo(r.x + r.w, y);
-      ctx.stroke();
-    }
-  });
-
-  // 3. Signature Beige/Cream & Red Horizontal Chest & Sleeve Stripes
-  const frontStripeY = toY(27);
-  const stripeHeight = toY(6);
-
-  // Cream horizontal band across chest & back
-  ctx.fillStyle = creamStripe;
-  ctx.fillRect(toX(14), frontStripeY, toX(37), stripeHeight);
-
-  // Distinctive Red horizontal accent stripe on chest
-  ctx.fillStyle = redStripe;
-  ctx.fillRect(toX(22), frontStripeY + toY(0.8), toX(7), stripeHeight - toY(1.6));
-
-  // Sleeve stripes
-  ctx.fillStyle = creamStripe;
-  ctx.fillRect(0, toY(21), toX(16), stripeHeight * 0.9);
-  ctx.fillStyle = redStripe;
-  ctx.fillRect(toX(4), toY(21.5), toX(4.5), stripeHeight * 0.7);
-
-  ctx.fillStyle = creamStripe;
-  ctx.fillRect(toX(80), toY(18), toX(20), stripeHeight * 0.9);
-  ctx.fillStyle = redStripe;
-  ctx.fillRect(toX(88), toY(18.5), toX(4.5), stripeHeight * 0.7);
-
-  // 4. Pants & Legs
-  const pantsGrad = ctx.createLinearGradient(toX(50), toY(30), toX(75), toY(72));
-  pantsGrad.addColorStop(0, '#111827');
-  pantsGrad.addColorStop(0.5, pantsColorHex);
-  pantsGrad.addColorStop(1, '#090d16');
-  ctx.fillStyle = pantsGrad;
-  ctx.fillRect(toX(50), toY(30), toX(26), toY(43));
-
-  // 5. Shoes
-  ctx.fillStyle = '#0a0a0c';
-  ctx.fillRect(toX(48), toY(75), toX(28), toY(25));
-  ctx.fillStyle = '#f8fafc';
-  ctx.fillRect(toX(50), toY(94), toX(24), toY(2.5));
-
-  // 6. Hands & Neck
-  const handRegions = [
-    { x: 0, y: 0, w: toX(15), h: toY(12) },
-    { x: toX(28), y: 0, w: toX(10), h: toY(12) },
-    { x: toX(56), y: 0, w: toX(10), h: toY(18) },
-  ];
-  handRegions.forEach((h) => {
-    ctx.fillStyle = skinBase;
-    ctx.fillRect(h.x, h.y, h.w, h.h);
-  });
-
-  const neckGrad = ctx.createRadialGradient(toX(43), toY(14), 10, toX(43), toY(14), toX(8));
-  neckGrad.addColorStop(0, skinHighlight);
-  neckGrad.addColorStop(1, skinBase);
-  ctx.fillStyle = neckGrad;
-  ctx.fillRect(toX(36), toY(5), toX(15), toY(17));
-
-  // 7. Face & Head (Top-Left: x: 14% to 28%, y: 5% to 26%)
-  const faceX = toX(14);
-  const faceY = toY(5);
-  const faceW = toX(14);
-  const faceH = toY(21);
-
-  // Face Skin Base with warm sunlight gradient
-  const faceGrad = ctx.createRadialGradient(
-    faceX + faceW * 0.5,
-    faceY + faceH * 0.45,
-    faceW * 0.1,
-    faceX + faceW * 0.5,
-    faceY + faceH * 0.5,
-    faceW * 0.65
-  );
-  faceGrad.addColorStop(0, skinHighlight);
-  faceGrad.addColorStop(0.7, skinBase);
-  faceGrad.addColorStop(1, skinShadow);
-  ctx.fillStyle = faceGrad;
-  ctx.fillRect(faceX, faceY, faceW, faceH);
-
-  // Short Textured Dark Hair on Top
-  ctx.fillStyle = hairColor;
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.18, faceW * 0.48, faceH * 0.22, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Eyebrows
-  ctx.fillStyle = '#0a0a0c';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.32, faceY + faceH * 0.38, faceW * 0.12, faceH * 0.035, -0.1, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.68, faceY + faceH * 0.38, faceW * 0.12, faceH * 0.035, 0.1, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Eyes & Specular Reflections
-  // Left Eye
-  ctx.fillStyle = '#f8fafc';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.33, faceY + faceH * 0.45, faceW * 0.08, faceH * 0.038, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#1c130d';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.33, faceY + faceH * 0.45, faceW * 0.045, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#050505';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.33, faceY + faceH * 0.45, faceW * 0.024, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.315, faceY + faceH * 0.44, faceW * 0.012, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Right Eye
-  ctx.fillStyle = '#f8fafc';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.67, faceY + faceH * 0.45, faceW * 0.08, faceH * 0.038, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#1c130d';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.67, faceY + faceH * 0.45, faceW * 0.045, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#050505';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.67, faceY + faceH * 0.45, faceW * 0.024, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.655, faceY + faceH * 0.44, faceW * 0.012, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Nose bridge & Nostrils
-  ctx.fillStyle = 'rgba(40, 20, 10, 0.45)';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.58, faceW * 0.07, faceH * 0.04, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#1c0f08';
-  ctx.beginPath();
-  ctx.arc(faceX + faceW * 0.46, faceY + faceH * 0.59, faceW * 0.018, 0, Math.PI * 2);
-  ctx.arc(faceX + faceW * 0.54, faceY + faceH * 0.59, faceW * 0.018, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Mustache
-  ctx.fillStyle = '#121214';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.66, faceW * 0.16, faceH * 0.032, 0, 0, Math.PI);
-  ctx.fill();
-
-  // Open smiling mouth with clean white teeth
-  ctx.fillStyle = '#422118';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.73, faceW * 0.18, faceH * 0.055, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#150a06';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.73, faceW * 0.14, faceH * 0.038, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#f8fafc';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.72, faceW * 0.11, faceH * 0.02, 0, Math.PI, 0, true);
-  ctx.fill();
-
-  // Goatee & Chin Stubble
-  ctx.fillStyle = 'rgba(18, 18, 20, 0.75)';
-  ctx.beginPath();
-  ctx.ellipse(faceX + faceW * 0.5, faceY + faceH * 0.85, faceW * 0.14, faceH * 0.065, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // 8. Side / Back of Head
-  const sideX = toX(65);
-  const sideY = toY(5);
-  const sideW = toX(23);
-  const sideH = toY(30);
-
-  ctx.fillStyle = skinBase;
-  ctx.fillRect(sideX, sideY, sideW, sideH);
-  ctx.fillStyle = hairColor;
-  ctx.fillRect(sideX, sideY, sideW, sideH * 0.45);
-  ctx.fillStyle = 'rgba(18, 18, 20, 0.6)';
-  ctx.fillRect(sideX + sideW * 0.2, sideY + sideH * 0.45, sideW * 0.35, sideH * 0.4);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.flipY = false;
-  texture.generateMipmaps = true;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-  texture.needsUpdate = true;
-
-  return texture;
-}
-
 export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { isZBMode } = useApp();
-  const avatarWrapperRef = useRef<THREE.Group | null>(null);
-  const headBoneRef = useRef<THREE.Bone | null>(null);
+  const headGroupRef = useRef<THREE.Group | null>(null);
+  const leftEyelidRef = useRef<THREE.Mesh | null>(null);
+  const rightEyelidRef = useRef<THREE.Mesh | null>(null);
+  const spineGroupRef = useRef<THREE.Group | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Look-at reaction when post-it appears
   useEffect(() => {
-    if (!avatarWrapperRef.current || isZBMode) return;
-    if (lookAtTarget && headBoneRef.current) {
-      const normalizedX = (lookAtTarget.x / 100 - 0.5) * 0.8;
-      const normalizedY = (lookAtTarget.y / 600 - 0.5) * 0.5;
-      headBoneRef.current.rotation.y = normalizedX;
-      headBoneRef.current.rotation.x = normalizedY;
+    if (!headGroupRef.current || isZBMode) return;
+    if (lookAtTarget) {
+      const normalizedX = (lookAtTarget.x / 100 - 0.5) * 0.7;
+      const normalizedY = (lookAtTarget.y / 600 - 0.5) * 0.4;
+      headGroupRef.current.rotation.y = normalizedX;
+      headGroupRef.current.rotation.x = normalizedY;
     }
   }, [lookAtTarget, isZBMode]);
 
@@ -282,15 +33,15 @@ export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
     let width = container.clientWidth || 420;
     let height = container.clientHeight || 700;
 
-    // Scene
+    // 1. Scene & Setup
     const scene = new THREE.Scene();
 
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 1000);
-    camera.position.set(0, 0.45, 17.5);
-    camera.lookAt(0, 0, 0);
+    // 2. Camera setup
+    const camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    camera.position.set(0, 0.6, 16.5);
+    camera.lookAt(0, 0.8, 0);
 
-    // Renderer
+    // 3. High-performance WebGL Renderer
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -299,254 +50,497 @@ export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // Lighting (Warm golden ambient and sunlight matching Jamiu's photo)
-    const ambientLight = new THREE.AmbientLight(0xffedd5, 1.7);
+    // 4. Studio Lighting System (Golden Daylight Sun + Warm Ambient + Sky Rim Light)
+    // Ambient
+    const ambientLight = new THREE.AmbientLight(0xffedd5, 1.8);
     scene.add(ambientLight);
 
-    const hemiLight = new THREE.HemisphereLight(0xfff7ed, 0x1e293b, 0.95);
+    // Hemisphere sky/ground
+    const hemiLight = new THREE.HemisphereLight(0xfff7ed, 0x1e293b, 1.2);
     hemiLight.position.set(0, 10, 0);
     scene.add(hemiLight);
 
-    // Main Sunlight
-    const sunLight = new THREE.DirectionalLight(0xffedd5, 2.4);
-    sunLight.position.set(2, 4, 5);
+    // Key Golden Sunlight (Angled like the ceiling sunlight in Jamiu's photo!)
+    const sunLight = new THREE.DirectionalLight(0xffedd5, 3.2);
+    sunLight.position.set(3.5, 6, 5);
+    sunLight.castShadow = true;
     scene.add(sunLight);
 
-    const sideLight = new THREE.DirectionalLight(0xfef08a, 1.4);
-    sideLight.position.set(4, 2, 0);
-    scene.add(sideLight);
-
-    const fillLight = new THREE.DirectionalLight(0xffffff, 1.1);
-    fillLight.position.set(-3, 2, 2);
+    // Warm Side Fill Light
+    const fillLight = new THREE.DirectionalLight(0xfef08a, 1.6);
+    fillLight.position.set(-4, 3, 3);
     scene.add(fillLight);
 
-    // Wrapper group
-    const wrapper = new THREE.Group();
-    wrapper.scale.set(0.23, 0.205, 0.23);
-    wrapper.position.set(0.95, -2.1, 8.5);
-    wrapper.rotation.y = 5.65;
-    scene.add(wrapper);
-    avatarWrapperRef.current = wrapper;
+    // Crisp Cool Rim Light (accents silhouette)
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+    rimLight.position.set(-2, 4, -5);
+    scene.add(rimLight);
 
-    // --- STYLIZED PROCEDURAL FALLBACK FIGURE (BELLO JAMIU ISHOLA) ---
-    const fallbackGroup = new THREE.Group();
+    // Warm Front Bottom Bounce Light
+    const bounceLight = new THREE.DirectionalLight(0xffedd5, 1.0);
+    bounceLight.position.set(0, -3, 3);
+    scene.add(bounceLight);
 
-    // 1. Sweater Materials
-    const sweaterMat = new THREE.MeshStandardMaterial({
-      color: isZBMode ? ZB_SWEATER_BASE : SWEATER_NAVY,
-      roughness: 0.75
-    });
-    const stripeCreamMat = new THREE.MeshStandardMaterial({
-      color: SWEATER_CREAM,
-      roughness: 0.7
-    });
-    const stripeRedMat = new THREE.MeshStandardMaterial({
-      color: SWEATER_RED,
-      roughness: 0.65
-    });
+    // --- 5. BESPOKE 3D CHARACTER SCULPTURE: BELLO JAMIU ISHOLA ---
+    const characterRoot = new THREE.Group();
+    characterRoot.scale.set(0.245, 0.245, 0.245);
+    characterRoot.position.set(0.65, -2.6, 7.5);
+    characterRoot.rotation.y = 5.85;
+    scene.add(characterRoot);
+
+    // --- MATERIALS ---
+    // Warm Rich African Skin Tone with Velvet Subsurface Softness
     const skinMat = new THREE.MeshStandardMaterial({
-      color: JAMIU_SKIN_COLOR,
-      roughness: 0.55
+      color: new THREE.Color('#4a2b1a'),
+      roughness: 0.58,
+      metalness: 0.04,
+    });
+    const skinHighlightMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#5a3622'),
+      roughness: 0.52,
+      metalness: 0.05,
+    });
+    const lipsMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#422218'),
+      roughness: 0.45,
     });
     const hairMat = new THREE.MeshStandardMaterial({
-      color: JAMIU_HAIR_COLOR,
-      roughness: 0.9
+      color: new THREE.Color('#0a0b0e'),
+      roughness: 0.92,
+      metalness: 0.02,
     });
 
-    // Torso Base
-    const bodyGeo = new THREE.CylinderGeometry(2.0, 2.2, 4.8, 20);
-    const bodyMesh = new THREE.Mesh(bodyGeo, sweaterMat);
-    bodyMesh.position.y = 2.5;
-    fallbackGroup.add(bodyMesh);
+    // Signature Knit Sweater Materials
+    const sweaterNavy = isZBMode ? new THREE.Color('#ea580c') : new THREE.Color('#162236');
+    const sweaterKnitMat = new THREE.MeshStandardMaterial({
+      color: sweaterNavy,
+      roughness: 0.85,
+      metalness: 0.02,
+    });
+    const creamStripeMat = new THREE.MeshStandardMaterial({
+      color: isZBMode ? new THREE.Color('#ffedd5') : new THREE.Color('#e7decb'),
+      roughness: 0.75,
+      metalness: 0.02,
+    });
+    const redAccentMat = new THREE.MeshStandardMaterial({
+      color: isZBMode ? new THREE.Color('#fbbf24') : new THREE.Color('#dc2626'),
+      roughness: 0.65,
+      metalness: 0.05,
+    });
+    const ribbingMat = new THREE.MeshStandardMaterial({
+      color: isZBMode ? new THREE.Color('#c2410c') : new THREE.Color('#101827'),
+      roughness: 0.9,
+    });
+    const pantsMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#0f172a'),
+      roughness: 0.85,
+    });
+    const whiteMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const darkMat = new THREE.MeshBasicMaterial({ color: 0x09090b });
+    const irisMat = new THREE.MeshBasicMaterial({ color: 0x1f140c });
 
-    // Horizontal Cream Chest Stripe
-    const creamBandGeo = new THREE.CylinderGeometry(2.06, 2.12, 0.9, 20);
-    const creamBand = new THREE.Mesh(creamBandGeo, stripeCreamMat);
+    // --- LOWER BODY (Trousers & Shoes) ---
+    const lowerBody = new THREE.Group();
+
+    // Hips
+    const hipsGeo = new THREE.CylinderGeometry(1.6, 1.5, 1.8, 16);
+    const hipsMesh = new THREE.Mesh(hipsGeo, pantsMat);
+    hipsMesh.position.y = 1.0;
+    lowerBody.add(hipsMesh);
+
+    // Left Leg
+    const legGeo = new THREE.CylinderGeometry(0.72, 0.58, 6.2, 16);
+    const leftLeg = new THREE.Mesh(legGeo, pantsMat);
+    leftLeg.position.set(-0.9, -2.5, 0);
+    lowerBody.add(leftLeg);
+
+    // Right Leg
+    const rightLeg = new THREE.Mesh(legGeo, pantsMat);
+    rightLeg.position.set(0.9, -2.5, 0);
+    lowerBody.add(rightLeg);
+
+    // Shoes (Modern Dark Sneakers with Crisp White Soles)
+    const shoeGeo = new THREE.BoxGeometry(0.9, 0.65, 1.8);
+    const shoeSoleGeo = new THREE.BoxGeometry(0.94, 0.22, 1.84);
+
+    const leftShoe = new THREE.Mesh(shoeGeo, hairMat);
+    leftShoe.position.set(-0.9, -5.7, 0.3);
+    const leftSole = new THREE.Mesh(shoeSoleGeo, whiteMat);
+    leftSole.position.set(-0.9, -5.95, 0.3);
+    lowerBody.add(leftShoe);
+    lowerBody.add(leftSole);
+
+    const rightShoe = new THREE.Mesh(shoeGeo, hairMat);
+    rightShoe.position.set(0.9, -5.7, 0.3);
+    const rightSole = new THREE.Mesh(shoeSoleGeo, whiteMat);
+    rightSole.position.set(0.9, -5.95, 0.3);
+    lowerBody.add(rightShoe);
+    lowerBody.add(rightSole);
+
+    characterRoot.add(lowerBody);
+
+    // --- UPPER BODY (Spine, Torso, Knit Sweater & Arms) ---
+    const spineGroup = new THREE.Group();
+    spineGroup.position.y = 1.8;
+    characterRoot.add(spineGroup);
+    spineGroupRef.current = spineGroup;
+
+    // Torso Base (Navy Knit Sweater)
+    const torsoGeo = new THREE.CylinderGeometry(2.1, 1.75, 4.6, 24);
+    const torsoMesh = new THREE.Mesh(torsoGeo, sweaterKnitMat);
+    torsoMesh.position.y = 2.2;
+    spineGroup.add(torsoMesh);
+
+    // Hem Ribbing at waist
+    const hemGeo = new THREE.CylinderGeometry(1.8, 1.75, 0.45, 24);
+    const hemMesh = new THREE.Mesh(hemGeo, ribbingMat);
+    hemMesh.position.y = 0.15;
+    spineGroup.add(hemMesh);
+
+    // --- SIGNATURE CHEST STRIPES (From Photo!) ---
+    // Horizontal Oatmeal / Cream Stripe across chest
+    const creamBandGeo = new THREE.CylinderGeometry(2.14, 2.05, 1.05, 24);
+    const creamBand = new THREE.Mesh(creamBandGeo, creamStripeMat);
     creamBand.position.y = 3.2;
-    fallbackGroup.add(creamBand);
+    spineGroup.add(creamBand);
 
-    // Red Accent Badge on Chest Stripe
-    const redBadgeGeo = new THREE.BoxGeometry(0.7, 0.45, 0.15);
-    const redBadge = new THREE.Mesh(redBadgeGeo, stripeRedMat);
-    redBadge.position.set(0.6, 3.2, 2.05);
-    redBadge.rotation.y = 0.3;
-    fallbackGroup.add(redBadge);
+    // Distinctive Red Accent Stripe on the right side of the chest band
+    const redAccentGeo = new THREE.BoxGeometry(0.85, 0.55, 0.22);
+    const redAccent = new THREE.Mesh(redAccentGeo, redAccentMat);
+    redAccent.position.set(0.8, 3.2, 2.05);
+    redAccent.rotation.y = 0.38;
+    spineGroup.add(redAccent);
+
+    // Ribbed Collar at Neck
+    const collarGeo = new THREE.TorusGeometry(1.05, 0.22, 16, 24);
+    const collarMesh = new THREE.Mesh(collarGeo, ribbingMat);
+    collarMesh.position.set(0, 4.4, 0);
+    collarMesh.rotation.x = Math.PI * 0.5;
+    spineGroup.add(collarMesh);
 
     // Shoulders
-    const shoulderGeo = new THREE.SphereGeometry(0.85, 16, 16);
-    const leftShoulder = new THREE.Mesh(shoulderGeo, sweaterMat);
-    leftShoulder.position.set(-1.9, 4.4, 0);
-    const rightShoulder = new THREE.Mesh(shoulderGeo, sweaterMat);
-    rightShoulder.position.set(1.9, 4.4, 0);
-    fallbackGroup.add(leftShoulder);
-    fallbackGroup.add(rightShoulder);
+    const shoulderGeo = new THREE.SphereGeometry(0.95, 20, 20);
+    const leftShoulder = new THREE.Mesh(shoulderGeo, sweaterKnitMat);
+    leftShoulder.position.set(-2.1, 4.0, 0);
+    const rightShoulder = new THREE.Mesh(shoulderGeo, sweaterKnitMat);
+    rightShoulder.position.set(2.1, 4.0, 0);
+    spineGroup.add(leftShoulder);
+    spineGroup.add(rightShoulder);
 
-    // Arms with Sleeve Stripes
-    const armGeo = new THREE.CylinderGeometry(0.5, 0.45, 3.8, 16);
-    const leftArm = new THREE.Mesh(armGeo, sweaterMat);
-    leftArm.position.set(-2.0, 2.6, 0.2);
-    leftArm.rotation.z = 0.15;
-    const rightArm = new THREE.Mesh(armGeo, sweaterMat);
-    rightArm.position.set(2.0, 2.6, 0.2);
-    rightArm.rotation.z = -0.15;
-    fallbackGroup.add(leftArm);
-    fallbackGroup.add(rightArm);
+    // Shoulder Cream Stripes
+    const shoulderStripeGeo = new THREE.TorusGeometry(0.85, 0.14, 12, 20);
+    const leftShoulderStripe = new THREE.Mesh(shoulderStripeGeo, creamStripeMat);
+    leftShoulderStripe.position.set(-2.1, 3.9, 0);
+    leftShoulderStripe.rotation.x = Math.PI * 0.5;
+    const rightShoulderStripe = new THREE.Mesh(shoulderStripeGeo, creamStripeMat);
+    rightShoulderStripe.position.set(2.1, 3.9, 0);
+    rightShoulderStripe.rotation.x = Math.PI * 0.5;
+    spineGroup.add(leftShoulderStripe);
+    spineGroup.add(rightShoulderStripe);
 
-    // Head
+    // Left Arm (upper arm, elbow, forearm, wrist ribbing, hand)
+    const upperArmGeo = new THREE.CylinderGeometry(0.56, 0.5, 2.4, 16);
+    const leftUpperArm = new THREE.Mesh(upperArmGeo, sweaterKnitMat);
+    leftUpperArm.position.set(-2.3, 2.6, 0.2);
+    leftUpperArm.rotation.z = 0.2;
+    spineGroup.add(leftUpperArm);
+
+    const forearmGeo = new THREE.CylinderGeometry(0.5, 0.44, 2.2, 16);
+    const leftForearm = new THREE.Mesh(forearmGeo, sweaterKnitMat);
+    leftForearm.position.set(-2.6, 0.6, 0.6);
+    leftForearm.rotation.z = 0.15;
+    leftForearm.rotation.x = -0.3;
+    spineGroup.add(leftForearm);
+
+    // Left Hand & Fingers
+    const handGeo = new THREE.SphereGeometry(0.48, 16, 16);
+    const leftHand = new THREE.Mesh(handGeo, skinMat);
+    leftHand.position.set(-2.8, -0.6, 1.0);
+    leftHand.scale.set(0.8, 1.1, 0.9);
+    spineGroup.add(leftHand);
+
+    // Right Arm (relaxed forward pose)
+    const rightUpperArm = new THREE.Mesh(upperArmGeo, sweaterKnitMat);
+    rightUpperArm.position.set(2.3, 2.6, 0.2);
+    rightUpperArm.rotation.z = -0.22;
+    spineGroup.add(rightUpperArm);
+
+    const rightForearm = new THREE.Mesh(forearmGeo, sweaterKnitMat);
+    rightForearm.position.set(2.6, 0.6, 0.6);
+    rightForearm.rotation.z = -0.18;
+    rightForearm.rotation.x = -0.35;
+    spineGroup.add(rightForearm);
+
+    // Right Hand
+    const rightHand = new THREE.Mesh(handGeo, skinMat);
+    rightHand.position.set(2.8, -0.6, 1.0);
+    rightHand.scale.set(0.8, 1.1, 0.9);
+    spineGroup.add(rightHand);
+
+    // --- HEAD & BESPOKE FACIAL SCULPTURE (BELLO JAMIU ISHOLA) ---
     const headGroup = new THREE.Group();
-    headGroup.position.y = 5.7;
+    headGroup.position.set(0, 5.4, 0.15);
+    spineGroup.add(headGroup);
+    headGroupRef.current = headGroup;
 
-    const headGeo = new THREE.SphereGeometry(1.22, 28, 28);
-    const headMesh = new THREE.Mesh(headGeo, skinMat);
-    headGroup.add(headMesh);
+    // Neck
+    const neckGeo = new THREE.CylinderGeometry(0.72, 0.85, 1.4, 16);
+    const neckMesh = new THREE.Mesh(neckGeo, skinMat);
+    neckMesh.position.y = -0.55;
+    headGroup.add(neckMesh);
 
-    // Short Textured Dark Hair on Top & Back
-    const hairGeo = new THREE.SphereGeometry(1.26, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.45);
-    const hairMesh = new THREE.Mesh(hairGeo, hairMat);
-    hairMesh.rotation.x = -0.15;
-    headGroup.add(hairMesh);
+    // Main Cranium / Head (Sculpted Stylized Face)
+    const craniumGeo = new THREE.SphereGeometry(1.36, 32, 32);
+    const craniumMesh = new THREE.Mesh(craniumGeo, skinMat);
+    craniumMesh.scale.set(1.0, 1.12, 1.08);
+    craniumMesh.position.set(0, 0.45, 0);
+    headGroup.add(craniumMesh);
 
-    // Eyebrows
-    const browGeo = new THREE.BoxGeometry(0.35, 0.06, 0.08);
+    // Jaw & Chin Definition
+    const jawGeo = new THREE.SphereGeometry(0.9, 20, 20);
+    const jawMesh = new THREE.Mesh(jawGeo, skinMat);
+    jawMesh.scale.set(1.05, 0.95, 1.1);
+    jawMesh.position.set(0, -0.15, 0.32);
+    headGroup.add(jawMesh);
+
+    // Cheekbones (Warm Highlight definition)
+    const cheekGeo = new THREE.SphereGeometry(0.42, 16, 16);
+    const leftCheek = new THREE.Mesh(cheekGeo, skinHighlightMat);
+    leftCheek.position.set(-0.75, 0.28, 0.95);
+    leftCheek.scale.set(0.9, 0.7, 0.8);
+    const rightCheek = new THREE.Mesh(cheekGeo, skinHighlightMat);
+    rightCheek.position.set(0.75, 0.28, 0.95);
+    rightCheek.scale.set(0.9, 0.7, 0.8);
+    headGroup.add(leftCheek);
+    headGroup.add(rightCheek);
+
+    // --- SHORT TEXTURED FADE HAIRCUT (As in Jamiu's photo!) ---
+    const hairCrownGeo = new THREE.SphereGeometry(1.42, 28, 28, 0, Math.PI * 2, 0, Math.PI * 0.48);
+    const hairCrown = new THREE.Mesh(hairCrownGeo, hairMat);
+    hairCrown.position.set(0, 0.58, -0.05);
+    hairCrown.rotation.x = -0.12;
+    headGroup.add(hairCrown);
+
+    // Textured Hair Volume details on top
+    const hairTopGeo = new THREE.SphereGeometry(1.28, 20, 20);
+    const hairTop = new THREE.Mesh(hairTopGeo, hairMat);
+    hairTop.position.set(0, 1.12, -0.15);
+    hairTop.scale.set(0.95, 0.45, 1.05);
+    headGroup.add(hairTop);
+
+    // Hair Back & Temple Fade
+    const hairBackGeo = new THREE.CylinderGeometry(1.35, 1.25, 1.4, 24, 1, false, Math.PI * 0.5, Math.PI);
+    const hairBack = new THREE.Mesh(hairBackGeo, hairMat);
+    hairBack.position.set(0, 0.4, -0.12);
+    headGroup.add(hairBack);
+
+    // --- EARS ---
+    const earGeo = new THREE.TorusGeometry(0.38, 0.12, 12, 16, Math.PI * 1.3);
+    const leftEar = new THREE.Mesh(earGeo, skinMat);
+    leftEar.position.set(-1.38, 0.35, -0.05);
+    leftEar.rotation.y = Math.PI * 0.35;
+    leftEar.rotation.z = -0.2;
+    const rightEar = new THREE.Mesh(earGeo, skinMat);
+    rightEar.position.set(1.38, 0.35, -0.05);
+    rightEar.rotation.y = -Math.PI * 0.35;
+    rightEar.rotation.z = 0.2;
+    headGroup.add(leftEar);
+    headGroup.add(rightEar);
+
+    // --- EYEBROWS (Arched & Defined) ---
+    const browGeo = new THREE.CylinderGeometry(0.08, 0.04, 0.55, 12);
     const leftBrow = new THREE.Mesh(browGeo, hairMat);
-    leftBrow.position.set(-0.42, 0.25, 1.15);
-    leftBrow.rotation.z = -0.1;
+    leftBrow.position.set(-0.48, 0.62, 1.25);
+    leftBrow.rotation.z = Math.PI * 0.42;
+    leftBrow.rotation.y = -0.25;
     const rightBrow = new THREE.Mesh(browGeo, hairMat);
-    rightBrow.position.set(0.42, 0.25, 1.15);
-    rightBrow.rotation.z = 0.1;
+    rightBrow.position.set(0.48, 0.62, 1.25);
+    rightBrow.rotation.z = -Math.PI * 0.42;
+    rightBrow.rotation.y = 0.25;
     headGroup.add(leftBrow);
     headGroup.add(rightBrow);
 
-    // Eyes
-    const eyeWhiteGeo = new THREE.SphereGeometry(0.18, 12, 12);
-    const eyeWhiteMat = new THREE.MeshBasicMaterial({ color: 0xf8fafc });
-    const eyePupilGeo = new THREE.SphereGeometry(0.09, 10, 10);
-    const eyePupilMat = new THREE.MeshBasicMaterial({ color: 0x09090b });
+    // --- EYES & EYELIDS (With Specular Catchlights) ---
+    const eyeWhiteGeo = new THREE.SphereGeometry(0.24, 16, 16);
+    const irisGeo = new THREE.SphereGeometry(0.14, 14, 14);
+    const pupilGeo = new THREE.SphereGeometry(0.08, 12, 12);
+    const catchlightGeo = new THREE.SphereGeometry(0.04, 8, 8);
+    const eyelidGeo = new THREE.SphereGeometry(0.26, 16, 16, 0, Math.PI * 2, 0, Math.PI * 0.5);
 
-    const leftEye = new THREE.Mesh(eyeWhiteGeo, eyeWhiteMat);
-    leftEye.position.set(-0.4, 0.08, 1.12);
-    const leftPupil = new THREE.Mesh(eyePupilGeo, eyePupilMat);
-    leftPupil.position.set(-0.4, 0.08, 1.25);
+    // Left Eye
+    const leftEyeGroup = new THREE.Group();
+    leftEyeGroup.position.set(-0.46, 0.38, 1.15);
 
-    const rightEye = new THREE.Mesh(eyeWhiteGeo, eyeWhiteMat);
-    rightEye.position.set(0.4, 0.08, 1.12);
-    const rightPupil = new THREE.Mesh(eyePupilGeo, eyePupilMat);
-    rightPupil.position.set(0.4, 0.08, 1.25);
+    const leftWhite = new THREE.Mesh(eyeWhiteGeo, whiteMat);
+    leftWhite.scale.set(1.0, 0.72, 0.65);
+    leftEyeGroup.add(leftWhite);
 
-    headGroup.add(leftEye);
-    headGroup.add(leftPupil);
-    headGroup.add(rightEye);
-    headGroup.add(rightPupil);
+    const leftIris = new THREE.Mesh(irisGeo, irisMat);
+    leftIris.position.set(0, 0, 0.16);
+    leftEyeGroup.add(leftIris);
 
-    // Mustache
-    const mustacheGeo = new THREE.BoxGeometry(0.5, 0.08, 0.12);
+    const leftPupil = new THREE.Mesh(pupilGeo, darkMat);
+    leftPupil.position.set(0, 0, 0.22);
+    leftEyeGroup.add(leftPupil);
+
+    const leftCatchlight = new THREE.Mesh(catchlightGeo, whiteMat);
+    leftCatchlight.position.set(-0.04, 0.05, 0.25);
+    leftEyeGroup.add(leftCatchlight);
+
+    const leftEyelid = new THREE.Mesh(eyelidGeo, skinHighlightMat);
+    leftEyelid.position.set(0, 0.08, 0.02);
+    leftEyelid.rotation.x = -Math.PI * 0.48;
+    leftEyeGroup.add(leftEyelid);
+    leftEyelidRef.current = leftEyelid;
+
+    headGroup.add(leftEyeGroup);
+
+    // Right Eye
+    const rightEyeGroup = new THREE.Group();
+    rightEyeGroup.position.set(0.46, 0.38, 1.15);
+
+    const rightWhite = new THREE.Mesh(eyeWhiteGeo, whiteMat);
+    rightWhite.scale.set(1.0, 0.72, 0.65);
+    rightEyeGroup.add(rightWhite);
+
+    const rightIris = new THREE.Mesh(irisGeo, irisMat);
+    rightIris.position.set(0, 0, 0.16);
+    rightEyeGroup.add(rightIris);
+
+    const rightPupil = new THREE.Mesh(pupilGeo, darkMat);
+    rightPupil.position.set(0, 0, 0.22);
+    rightEyeGroup.add(rightPupil);
+
+    const rightCatchlight = new THREE.Mesh(catchlightGeo, whiteMat);
+    rightCatchlight.position.set(-0.04, 0.05, 0.25);
+    rightEyeGroup.add(rightCatchlight);
+
+    const rightEyelid = new THREE.Mesh(eyelidGeo, skinHighlightMat);
+    rightEyelid.position.set(0, 0.08, 0.02);
+    rightEyelid.rotation.x = -Math.PI * 0.48;
+    rightEyeGroup.add(rightEyelid);
+    rightEyelidRef.current = rightEyelid;
+
+    headGroup.add(rightEyeGroup);
+
+    // --- NOSE (Sculpted bridge & tip) ---
+    const noseBridgeGeo = new THREE.BoxGeometry(0.24, 0.42, 0.35);
+    const noseBridge = new THREE.Mesh(noseBridgeGeo, skinHighlightMat);
+    noseBridge.position.set(0, 0.22, 1.34);
+    noseBridge.rotation.x = -0.15;
+    headGroup.add(noseBridge);
+
+    const noseTipGeo = new THREE.SphereGeometry(0.22, 16, 16);
+    const noseTip = new THREE.Mesh(noseTipGeo, skinHighlightMat);
+    noseTip.position.set(0, 0.05, 1.48);
+    noseTip.scale.set(1.15, 0.9, 1.0);
+    headGroup.add(noseTip);
+
+    // --- MUSTACHE (Trimmed dark mustache above upper lip) ---
+    const mustacheGeo = new THREE.CylinderGeometry(0.09, 0.03, 0.85, 16);
     const mustacheMesh = new THREE.Mesh(mustacheGeo, hairMat);
-    mustacheMesh.position.set(0, -0.32, 1.18);
+    mustacheMesh.position.set(0, -0.16, 1.36);
+    mustacheMesh.rotation.z = Math.PI * 0.5;
+    mustacheMesh.scale.set(1.1, 0.8, 0.9);
     headGroup.add(mustacheMesh);
 
-    // Smiling Mouth with White Teeth
-    const smileGeo = new THREE.CylinderGeometry(0.24, 0.24, 0.08, 12, 1, false, 0, Math.PI);
-    const smileMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const smileMesh = new THREE.Mesh(smileGeo, smileMat);
-    smileMesh.position.set(0, -0.48, 1.16);
-    smileMesh.rotation.x = Math.PI * 0.5;
-    headGroup.add(smileMesh);
+    // --- SMILING MOUTH & WHITE TEETH (Warm confident smile from photo!) ---
+    const mouthGroup = new THREE.Group();
+    mouthGroup.position.set(0, -0.32, 1.28);
 
-    // Goatee / Chin Stubble
-    const goateeGeo = new THREE.SphereGeometry(0.28, 12, 12);
+    // Upper & Lower Lips
+    const lipUpperGeo = new THREE.TorusGeometry(0.36, 0.075, 12, 16, Math.PI * 0.9);
+    const lipUpper = new THREE.Mesh(lipUpperGeo, lipsMat);
+    lipUpper.rotation.x = Math.PI * 0.5;
+    lipUpper.rotation.z = Math.PI;
+    mouthGroup.add(lipUpper);
+
+    const lipLowerGeo = new THREE.TorusGeometry(0.38, 0.085, 12, 16, Math.PI * 0.85);
+    const lipLower = new THREE.Mesh(lipLowerGeo, lipsMat);
+    lipLower.position.set(0, -0.09, 0.04);
+    lipLower.rotation.x = Math.PI * 0.5;
+    mouthGroup.add(lipLower);
+
+    // Smiling Open Mouth Interior
+    const mouthInteriorGeo = new THREE.CylinderGeometry(0.32, 0.32, 0.12, 16, 1, false, 0, Math.PI);
+    const mouthInterior = new THREE.Mesh(mouthInteriorGeo, darkMat);
+    mouthInterior.position.set(0, -0.03, 0.02);
+    mouthInterior.rotation.x = Math.PI * 0.5;
+    mouthGroup.add(mouthInterior);
+
+    // Clean White Upper Teeth Row
+    const teethGeo = new THREE.CylinderGeometry(0.28, 0.28, 0.08, 16, 1, false, 0, Math.PI);
+    const teeth = new THREE.Mesh(teethGeo, whiteMat);
+    teeth.position.set(0, 0.02, 0.05);
+    teeth.rotation.x = Math.PI * 0.5;
+    mouthGroup.add(teeth);
+
+    headGroup.add(mouthGroup);
+
+    // --- GOATEE & CHIN STUBBLE ---
+    const goateeGeo = new THREE.SphereGeometry(0.35, 16, 16);
     const goateeMesh = new THREE.Mesh(goateeGeo, hairMat);
-    goateeMesh.position.set(0, -0.72, 1.05);
-    goateeMesh.scale.set(1.1, 0.8, 0.6);
+    goateeMesh.position.set(0, -0.62, 1.15);
+    goateeMesh.scale.set(0.95, 0.8, 0.7);
     headGroup.add(goateeMesh);
 
-    fallbackGroup.add(headGroup);
+    // --- 6. FLOATING INTERACTIVE ORBITING TECH BADGES (Figma, React, Mobile, Supabase, IoT) ---
+    const badgeGroup = new THREE.Group();
+    characterRoot.add(badgeGroup);
 
-    // Pants / Legs (Charcoal Slate)
-    const legsGeo = new THREE.CylinderGeometry(0.8, 0.7, 5, 16);
-    const pantsMat = new THREE.MeshStandardMaterial({
-      color: PANTS_COLOR,
-      roughness: 0.85
+    const badgeData = [
+      { text: 'UI/UX Design', color: '#f59e0b', pos: [-3.2, 4.2, 2.0] },
+      { text: 'React & Three.js', color: '#06b6d4', pos: [3.4, 3.8, 1.8] },
+      { text: 'Mobile Flutter', color: '#3b82f6', pos: [-2.9, 1.5, 2.4] },
+      { text: 'Supabase & Cloud', color: '#10b981', pos: [3.1, 1.2, 2.2] },
+    ];
+
+    const badgeMeshes: THREE.Mesh[] = [];
+
+    badgeData.forEach((b) => {
+      const bCanvas = document.createElement('canvas');
+      bCanvas.width = 256;
+      bCanvas.height = 80;
+      const bCtx = bCanvas.getContext('2d')!;
+
+      // Pill Background
+      bCtx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+      bCtx.roundRect(4, 4, 248, 72, 36);
+      bCtx.fill();
+      bCtx.lineWidth = 4;
+      bCtx.strokeStyle = b.color;
+      bCtx.roundRect(4, 4, 248, 72, 36);
+      bCtx.stroke();
+
+      // Text
+      bCtx.font = 'bold 26px sans-serif';
+      bCtx.fillStyle = '#f8fafc';
+      bCtx.textAlign = 'center';
+      bCtx.textBaseline = 'middle';
+      bCtx.fillText(b.text, 128, 40);
+
+      const bTexture = new THREE.CanvasTexture(bCanvas);
+      bTexture.colorSpace = THREE.SRGBColorSpace;
+
+      const pillGeo = new THREE.PlaneGeometry(1.6, 0.5);
+      const pillMat = new THREE.MeshBasicMaterial({
+        map: bTexture,
+        transparent: true,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+
+      const pillMesh = new THREE.Mesh(pillGeo, pillMat);
+      pillMesh.position.set(b.pos[0], b.pos[1], b.pos[2]);
+      badgeGroup.add(pillMesh);
+      badgeMeshes.push(pillMesh);
     });
-    const leftLeg = new THREE.Mesh(legsGeo, pantsMat);
-    leftLeg.position.set(-0.8, -1.8, 0);
-    const rightLeg = new THREE.Mesh(legsGeo, pantsMat);
-    rightLeg.position.set(0.8, -1.8, 0);
-    fallbackGroup.add(leftLeg);
-    fallbackGroup.add(rightLeg);
 
-    wrapper.add(fallbackGroup);
-
-    let mixer: THREE.AnimationMixer | null = null;
-
-    // Generate Custom High-Definition Jamiu Canvas Texture
-    const jamiuTexture = createJamiuTexture(isZBMode);
-
-    // Setup DRACOLoader & GLTFLoader
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
-
-    const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
-
-    const modelPath = isZBMode ? '/models/carlton_dance.glb' : '/models/thinking.glb';
-
-    loader.load(
-      modelPath,
-      (gltf) => {
-        const model = gltf.scene;
-        wrapper.remove(fallbackGroup);
-
-        model.scale.set(1.12, 1.0, 1.12);
-
-        // Custom Jamiu PBR Material
-        const jamiuMaterial = new THREE.MeshStandardMaterial({
-          map: jamiuTexture,
-          roughness: 0.62,
-          metalness: 0.05,
-          side: THREE.DoubleSide
-        });
-
-        model.traverse((child) => {
-          if ((child as THREE.Bone).isBone && child.name.toLowerCase().includes('head')) {
-            headBoneRef.current = child as THREE.Bone;
-          }
-          if ((child as THREE.Mesh).isMesh) {
-            const mesh = child as THREE.Mesh;
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-
-            const name = (mesh.name || '').toLowerCase();
-
-            // Remove any old glasses accessories if separate mesh
-            if (name.includes('glass') || name.includes('spectacle') || name.includes('eyewear')) {
-              mesh.visible = false;
-              return;
-            }
-
-            // Apply high-res Bello Jamiu Ishola texture map
-            mesh.material = jamiuMaterial;
-          }
-        });
-
-        wrapper.add(model);
-
-        // Animations
-        if (gltf.animations && gltf.animations.length > 0) {
-          mixer = new THREE.AnimationMixer(model);
-          const action = mixer.clipAction(gltf.animations[0]);
-          action.setLoop(THREE.LoopRepeat, Infinity);
-          action.play();
-        }
-      },
-      undefined,
-      (err) => {
-        console.warn('GLTF fallback retained:', err);
-      }
-    );
-
-    // Mouse Tracking
+    // --- 7. MOUSE TRACKING & PROCEDURAL ANIMATION LOOP ---
     let targetMouseX = 0;
     let targetMouseY = 0;
 
@@ -554,38 +548,92 @@ export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
       const rect = container.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
-
       targetMouseX = x;
       targetMouseY = y;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Render loop
     let animationFrameId: number;
     const clock = new THREE.Clock();
+    let blinkTimer = 0;
+    let isBlinking = false;
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      const delta = Math.min(clock.getDelta(), 0.1);
+      const time = clock.getElapsedTime();
+      const delta = clock.getDelta();
 
-      if (mixer) {
-        mixer.update(delta);
-      }
+      // 1. Natural Breathing & Organic Spine Bobbing
+      const breath = Math.sin(time * 2.2) * 0.035;
+      spineGroup.position.y = 1.8 + breath;
+      spineGroup.rotation.z = Math.sin(time * 1.1) * 0.015;
 
-      // Smooth head gaze
-      if (headBoneRef.current && !isZBMode) {
-        headBoneRef.current.rotation.y = THREE.MathUtils.lerp(
-          headBoneRef.current.rotation.y,
-          targetMouseX * 0.35,
+      // 2. Smooth Head Tracking (Follows mouse gracefully)
+      if (headGroupRef.current) {
+        headGroupRef.current.rotation.y = THREE.MathUtils.lerp(
+          headGroupRef.current.rotation.y,
+          targetMouseX * 0.55,
           0.06
         );
-        headBoneRef.current.rotation.x = THREE.MathUtils.lerp(
-          headBoneRef.current.rotation.x,
-          targetMouseY * 0.25,
+        headGroupRef.current.rotation.x = THREE.MathUtils.lerp(
+          headGroupRef.current.rotation.x,
+          targetMouseY * 0.35,
           0.06
         );
+        headGroupRef.current.rotation.z = THREE.MathUtils.lerp(
+          headGroupRef.current.rotation.z,
+          -targetMouseX * 0.15,
+          0.05
+        );
       }
+
+      // 3. Eye Blinking Procedural Routine
+      blinkTimer += delta;
+      if (blinkTimer > 3.8) {
+        isBlinking = true;
+        blinkTimer = 0;
+      }
+      if (isBlinking) {
+        if (leftEyelidRef.current && rightEyelidRef.current) {
+          leftEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+            leftEyelidRef.current.rotation.x,
+            0.1,
+            0.35
+          );
+          rightEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+            rightEyelidRef.current.rotation.x,
+            0.1,
+            0.35
+          );
+          if (leftEyelidRef.current.rotation.x > -0.05) {
+            isBlinking = false;
+          }
+        }
+      } else {
+        if (leftEyelidRef.current && rightEyelidRef.current) {
+          leftEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+            leftEyelidRef.current.rotation.x,
+            -Math.PI * 0.48,
+            0.2
+          );
+          rightEyelidRef.current.rotation.x = THREE.MathUtils.lerp(
+            rightEyelidRef.current.rotation.x,
+            -Math.PI * 0.48,
+            0.2
+          );
+        }
+      }
+
+      // 4. Floating Tech Badges (Gentle bobbing + billboard orientation)
+      badgeMeshes.forEach((mesh, index) => {
+        const offset = index * 1.3;
+        mesh.position.y = badgeData[index].pos[1] + Math.sin(time * 1.8 + offset) * 0.14;
+        mesh.rotation.y = -characterRoot.rotation.y;
+      });
+
+      // 5. Light sway on character root
+      characterRoot.position.y = -2.6 + Math.sin(time * 1.5) * 0.05;
 
       renderer.render(scene, camera);
     };
@@ -611,8 +659,6 @@ export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
-      jamiuTexture.dispose();
-      dracoLoader.dispose();
       renderer.dispose();
     };
   }, [isZBMode]);
@@ -620,8 +666,11 @@ export const Avatar3D: React.FC<Avatar3DProps> = ({ lookAtTarget }) => {
   return (
     <div
       ref={containerRef}
-      className="w-full h-[580px] lg:h-[720px] flex items-center justify-center relative pointer-events-none"
-      aria-label="3D Avatar Character"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="w-full h-[580px] lg:h-[720px] flex items-center justify-center relative pointer-events-auto cursor-pointer transition-transform duration-300"
+      style={{ transform: isHovered ? 'scale(1.02)' : 'scale(1)' }}
+      aria-label="3D Avatar Character of Bello Jamiu Ishola"
     />
   );
 };
